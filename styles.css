@@ -30,7 +30,7 @@ header nav ul li a {
 }
 
 .hero {
-    background-color: #0275d8;
+    background-color: #000;
     color: white;
     text-align: center;
     padding: 100px 20px;
@@ -59,7 +59,7 @@ form input {
 
 form button {
     padding: 10px 20px;
-    background-color: #0275d8;
+    background-color: #800080;
     color: white;
     border: none;
     cursor: pointer;
