@@ -2,13 +2,13 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #ffffff; /* Change background color */
+    color: #333; /* Change color of headings */
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #333; /* Change background color */
+    color: #fff; /* Change color of headings */
     padding: 1rem;
 }
 
