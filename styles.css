@@ -71,3 +71,9 @@ footer {
     background-color: #000;
     color: white;
 }
+
+
+.hero-image {
+    width: 300px;  /* Adjust width as needed */
+    height: auto;  /* Keep the aspect ratio */
+}
