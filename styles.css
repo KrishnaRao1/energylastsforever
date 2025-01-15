@@ -77,3 +77,7 @@ footer {
     width: 250px;  /* Adjust width as needed */
     height: auto;  /* Keep the aspect ratio */
 }
+
+form label {
+    color: white;
+}
