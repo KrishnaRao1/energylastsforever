@@ -81,3 +81,8 @@ footer {
 form label {
     color: white;
 }
+.redirect-image {
+    width: 250px;  /* Adjust as needed */
+    height: auto;  /* Maintain aspect ratio */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
