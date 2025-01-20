@@ -74,7 +74,7 @@ footer {
 
 
 .hero-image {
-    width: 250px;  /* Adjust width as needed */
+    width: 400px;  /* Adjust width as needed */
     height: auto;  /* Keep the aspect ratio */
 }
 
@@ -82,7 +82,7 @@ form label {
     color: white;
 }
 .redirect-image {
-    width: 250px;  /* Adjust as needed */
+    width: 400px;  /* Adjust as needed */
     height: auto;  /* Maintain aspect ratio */
     cursor: pointer; /* Change cursor to pointer on hover */
 }
