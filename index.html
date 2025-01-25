@@ -6,62 +6,86 @@
     <title>Energy Lasts Forever</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header, footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+        }
+        .hero {
+            padding: 20px;
+        }
+        .hero img {
+            display: block;
+            margin: 0 auto;
+            width: 150px; /* Adjust size if needed */
+        }
+        .date-time {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        nav ul li {
+            margin: 10px 0; /* Add spacing between links */
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        #contactForm {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="shop.html">Shop</a></li> <!-- Shop link added -->
-                <li><a href="#Statistics">Statistics</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#Gallery">Gallery</a></li>
-            </ul>
-        </nav>
+        <h1>Energy Lasts Forever</h1>
     </header>
 
     <main id="home">
+        <!-- Hero Section -->
         <section class="hero">
-            <!-- Image added above the h1 text -->
             <a href="/">
-                <img src="EL4E Back Logo.png" class="hero-image"/>
+                <img src="EL4E Back Logo.png" alt="Energy Lasts Forever Logo" class="hero-image">
             </a>
             <h1>el4e</h1>
-            <p id="time">Loading time...</p>
-
-
-
-            
-            <script>
-                function updateTime() {
-                    const options = {
-                        timeZone: "America/Los_Angeles",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                        hour12: true
-                    };
-
-                    const formatter = new Intl.DateTimeFormat("en-US", options);
-                    const timeString = formatter.format(new Date());
-
-                    document.getElementById("time").textContent = timeString;
-                }
-
-        // Update the time every second
-                setInterval(updateTime, 1000);
-                updateTime();
-        </script>
-            
-
-
-
-            
         </section>
 
+        <!-- Date and Time Section -->
+        <section class="date-time">
+            <p id="dateTime">Loading date and time...</p>
+        </section>
 
+        <!-- Navigation Section -->
+        <section id="navigation">
+            <nav>
+                <ul>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="#Statistics">Statistics</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#Gallery">Gallery</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- Mailing List Section -->
         <section id="contact">
-            <h2>mailing list</h2>
+            <h2>Mailing List</h2>
             <form id="contactForm">
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -78,6 +102,33 @@
         <p>&copy; 2025 Energy Lasts Forever. All rights reserved.</p>
     </footer>
 
+    <script>
+        // Function to update date and time
+        function updateDateTime() {
+            const optionsDate = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                timeZone: 'America/Los_Angeles'
+            };
+            const optionsTime = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+                timeZone: 'America/Los_Angeles'
+            };
+
+            const date = new Intl.DateTimeFormat('en-US', optionsDate).format(new Date());
+            const time = new Intl.DateTimeFormat('en-US', optionsTime).format(new Date());
+
+            document.getElementById('dateTime').textContent = `${date} ${time} CALI`;
+        }
+
+        // Update date and time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
