@@ -74,8 +74,10 @@ footer {
 
 
 .hero-image {
-    width: 500px;  /* Adjust width as needed */
-    height: auto;  /* Keep the aspect ratio */
+    width: 500px; /* Adjust as needed */
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto; /* Ensure no extra left/right offset */
 }
 
 form label {
