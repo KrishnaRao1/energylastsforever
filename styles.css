@@ -86,7 +86,8 @@ footer {
     max-width: 100%;
     height: auto;
     margin: 0 auto; /* Ensure no extra left/right offset */
-    tranform: translateX(50px);
+    position: relative;
+    left: 50px;
 }
 
 form label {
