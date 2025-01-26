@@ -93,13 +93,13 @@ form label {
 
 /* Stacked Navigation Links */
 .stacked-links {
-    list-style-type: none; /* Removes bullet points */
-    padding: 0; /* Removes extra padding from the list */
-    margin: 20px 0;
+    list-style: none; /* Completely removes bullet points */
+    padding: 0; /* Removes any default padding */
+    margin: 0; /* Removes default margin */
 }
 
 .stacked-links li {
-    margin: 10px 0; /* Space between links */
+    margin: 10px 0; /* Adds custom space between links */
 }
 
 .stacked-links li a {
