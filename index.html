@@ -59,22 +59,25 @@
                 day: '2-digit',
                 timeZone: 'America/Los_Angeles'
             };
-            const optionsTime = {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true,
-                timeZone: 'America/Los_Angeles'
-            };
+            const now = new Date();
 
-            const date = new Intl.DateTimeFormat('en-US', optionsDate).format(new Date());
-            const time = new Intl.DateTimeFormat('en-US', optionsTime).format(new Date());
+    // Format the date
+            const date = new Intl.DateTimeFormat('en-US', optionsDate).format(now);
 
+    // Format the time manually to remove the space and make `am/pm` lowercase
+            const hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const period = now.getHours() >= 12 ? 'pm' : 'am'; // Lowercase period
+
+            const time = `${hours}:${minutes}${period}`; // Combine time and period
+
+    // Update the element
             document.getElementById('dateTime').textContent = `${date} ${time}`;
-        }
+}
 
-        // Update date and time every second
-        setInterval(updateDateTime, 60000);
-        updateDateTime();
+// Update every minute since seconds are not displayed
+setInterval(updateDateTime, 60000);
+updateDateTime();
     </script>
 
     <!-- External JavaScript File (Only if Needed) -->
