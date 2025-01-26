@@ -86,3 +86,30 @@ form label {
     height: auto;  /* Maintain aspect ratio */
     cursor: pointer; /* Change cursor to pointer on hover */
 }
+
+
+
+
+
+/* Stacked Navigation Links */
+.stacked-links {
+    list-style-type: none; /* Removes bullet points */
+    padding: 0; /* Removes extra padding from the list */
+    margin: 20px 0;
+}
+
+.stacked-links li {
+    margin: 10px 0; /* Space between links */
+}
+
+.stacked-links li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+}
+
+.stacked-links li a:hover {
+    color: #555;
+}
