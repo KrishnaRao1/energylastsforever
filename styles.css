@@ -75,7 +75,7 @@ form button {
 
 footer {
     text-align: center;
-    padding: 17px;
+    padding: 20px;
     background-color: #000;
     color: black;
 }
@@ -87,7 +87,7 @@ footer {
     height: auto;
     margin: 0 auto; /* Ensure no extra left/right offset */
     position: relative;
-    left: 20px;
+    left: 18px;
 }
 
 form label {
