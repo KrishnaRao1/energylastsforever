@@ -87,7 +87,7 @@ footer {
     height: auto;
     margin: 0 auto; /* Ensure no extra left/right offset */
     position: relative;
-    left: 50px;
+    left: 25px;
 }
 
 form label {
