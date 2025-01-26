@@ -62,7 +62,6 @@
             const optionsTime = {
                 hour: '2-digit',
                 minute: '2-digit',
-                second: '2-digit',
                 hour12: true,
                 timeZone: 'America/Los_Angeles'
             };
@@ -74,7 +73,7 @@
         }
 
         // Update date and time every second
-        setInterval(updateDateTime, 1000);
+        setInterval(updateDateTime, 60000);
         updateDateTime();
     </script>
 
