@@ -156,3 +156,23 @@ form label {
     transform: scale(1.1); /* Slightly enlarge the link */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for pop */
 }
+
+
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything horizontally */
+    text-align: center;
+}
+
+.product h2,
+.product p,
+.product button {
+    margin: 5px 0; /* Add spacing for better alignment */
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px; /* Add space between the images and button */
+}
