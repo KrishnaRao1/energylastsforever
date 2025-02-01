@@ -11,6 +11,26 @@
             background-color: #000; /* Black background */
             color: #fff; /* White text */
         }
+        .stacked-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .stacked-links li {
+            margin: 10px 0;
+        }
+        .stacked-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .stacked-links a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -19,12 +39,12 @@
             <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo">
         </a>
         <nav>
-        <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="#Statistics">Statistics</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="#Gallery">Gallery</a></li>
-        </ul>
+            <ul class="stacked-links">
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="#Statistics">Statistics</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#Gallery">Gallery</a></li>
+            </ul>
         </nav>
     </header>
 
