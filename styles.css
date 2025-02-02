@@ -158,4 +158,9 @@ form label {
 }
 
 
+.about-content {
+    color: black; /* Ensure text is black */
+    text-align: center; /* Center align if needed */
+    padding: 20px;
+}
 
