@@ -164,3 +164,8 @@ form label {
     padding: 20px;
 }
 
+.about-content ul {
+    list-style: none; /* Removes default bullets */
+    padding: 0; /* Removes extra left padding */
+    margin: 0; /* Ensures consistent spacing */
+}
