@@ -158,17 +158,4 @@ form label {
 }
 
 
-.product {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Aligns images and text to the left */
-    text-align: left; /* Ensures text stays aligned left */
-}
 
-.product h2,
-.product p,
-.product button {
-    align-self: center; /* Centers only these elements */
-    text-align: center;
-    margin: 5px 0; /* Spacing between elements */
-}
