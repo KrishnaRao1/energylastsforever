@@ -191,3 +191,51 @@ form label {
     transform: scale(1.05); /* Slight zoom effect on hover */
     box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2); /* Subtle glow effect */
 }
+
+
+.pitch-deck {
+    text-align: center;
+    padding: 30px;
+}
+
+.pitch-deck h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.pitch-deck iframe {
+    width: 90%;
+    max-width: 900px;
+    height: 500px;
+    border: none;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for a polished look */
+    border-radius: 10px; /* Soft rounded edges */
+}
+
+.pitch-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff); /* Modern gradient */
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.pitch-button:hover {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 10px rgba(255, 64, 96, 0.7);
+}
+
+
+
+
+
+
+
+
