@@ -209,7 +209,7 @@ form label {
 }
 
 .pitch-deck iframe {
-    width: 90%;
+    width: 100%;
     max-width: 900px;
     height: 500px;
     border: none; /* Removes unwanted borders */
