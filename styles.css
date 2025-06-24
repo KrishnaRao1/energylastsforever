@@ -259,6 +259,16 @@ form label {
 
 
 
+.venmo-button:hover {
+  background: ...;  /* overrides .pitch-button:hover */
+}
+
+.cashapp-button:hover {
+  background: ...;  /* overrides .pitch-button:hover */
+}
+
+
+
 .orbitron-glow {
   font-family: 'Orbitron', sans-serif;
   font-size: 1rem;
