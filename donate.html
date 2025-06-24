@@ -3,37 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support EL4E</title>
+  <title>Donate | Energy Lasts Forever</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .donation-info {
+      color: white;
+      text-align: center;
+      padding: 10px 20px;
+    }
+
+    .donation-info ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .donation-info li {
+      margin: 10px 0;
+      font-size: 1.2rem;
+    }
+
+    .qr-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .qr-icons img {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .qr-icons img:hover {
+      transform: scale(1.05);
+    }
+
+    .qr-labels {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .donate-buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  </style>
 </head>
 <body>
+  <header></header>
 
-  <section>
-    <h1 style="color: white;">Support the Movement 🖤</h1>
-    <p style="color: white;">Cop a tee or hoodie. Every purchase fuels the vision.</p>
-
-    <div class="about-content">
-      <ul>
-        <li><strong>Shirt:</strong> $30</li>
-        <li><strong>Hoodie:</strong> $75</li>
-      </ul>
-    </div>
-
-    <div style="margin-top: 30px;">
-      <a href="https://venmo.com/YourVenmoUsername?txn=pay&note=EL4E%20Support" class="pitch-button" target="_blank">
-        Pay with Venmo
+  <main id="donate">
+    <!-- Logo and Nav -->
+    <section class="hero">
+      <a href="/">
+        <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo" />
       </a>
-      <a href="https://cash.app/$YourCashTag" class="pitch-button" target="_blank">
-        Pay with Cash App
+
+      <nav>
+        <ul class="stacked-links">
+          <li><a href="stats.html">CourtVision AI (Startup)</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <!-- Donation Info -->
+    <section class="hero">
+      <h1>Support the Vision</h1>
+      <p>Your purchase fuels our future. Thank you for your energy 🖤</p>
+
+      <div class="donation-info">
+        <ul>
+          <li><strong>Shirt:</strong> $30</li>
+          <li><strong>Hoodie:</strong> $75</li>
+        </ul>
+      </div>
+
+      <div class="donate-buttons">
+        <a href="https://venmo.com/YourVenmoUsername?txn=pay&note=EL4E%20Support" class="pitch-button" target="_blank">
+          Pay with Venmo
+        </a>
+        <a href="https://cash.app/$YourCashTag" class="pitch-button" target="_blank">
+          Pay with Cash App
+        </a>
+      </div>
+
+      <div class="qr-icons">
+        <img src="venmo-qr.png" alt="Venmo QR Code" />
+        <img src="cashapp-qr.png" alt="Cash App QR Code" />
+      </div>
+
+      <div class="qr-labels">
+        <span>Venmo</span>
+        <span>Cash App</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ENERGY LASTS FOREVER</p>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
+        <img src="Instagram_icon.png" alt="Instagram Icon" />
       </a>
     </div>
-
-    <div class="qr">
-      <p style="color: white; margin-top: 40px;">Or scan to pay:</p>
-      <img src="venmo-qr.png" alt="Venmo QR Code" />
-      <img src="cashapp-qr.png" alt="Cash App QR Code" />
-    </div>
-  </section>
-
+  </footer>
 </body>
 </html>
