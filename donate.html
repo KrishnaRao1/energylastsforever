@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Donate | EL4E</title>
+  <title>Support EL4E</title>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 40px;
+      font-family: 'Arial', sans-serif;
       background-color: #f5f5f5;
+      color: #111;
+      text-align: center;
+      padding: 40px 20px;
     }
 
     h1 {
@@ -22,15 +23,24 @@
       margin-bottom: 30px;
     }
 
-    .donate-links a {
+    .item {
+      margin: 20px 0;
+    }
+
+    .price {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .button-group a {
       display: inline-block;
-      margin: 10px;
-      padding: 15px 25px;
+      margin: 5px;
+      padding: 12px 20px;
       border-radius: 8px;
       text-decoration: none;
       color: white;
       font-weight: bold;
-      transition: background-color 0.2s ease-in-out;
+      transition: opacity 0.2s ease-in-out;
     }
 
     .venmo {
@@ -41,33 +51,47 @@
       background-color: #00D632;
     }
 
-    .donate-links a:hover {
+    .button-group a:hover {
       opacity: 0.85;
     }
 
-    .qr {
-      margin-top: 30px;
+    .qr img {
+      width: 130px;
+      margin: 10px;
+      border-radius: 12px;
     }
 
-    .qr img {
-      width: 150px;
-      border-radius: 12px;
-      margin: 10px;
+    .qr {
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 
-  <h1>Support Energy Lasts Forever 💸</h1>
-  <p>We appreciate your support. Every dollar helps us keep building.</p>
+  <h1>Support EL4E 🖤</h1>
+  <p>Cop a tee or hoodie and help us grow the brand.</p>
 
-  <div class="donate-links">
-    <a href="https://venmo.com/YourVenmoUsername" class="venmo" target="_blank">Donate via Venmo</a>
-    <a href="https://cash.app/$YourCashTag" class="cashapp" target="_blank">Donate via Cash App</a>
+  <!-- Shirt Option -->
+  <div class="item">
+    <div class="price">Shirt – $30</div>
+    <div class="button-group">
+      <a href="https://venmo.com/YourVenmoUsername?txn=pay&amount=30&note=EL4E%20Shirt" class="venmo" target="_blank">Venmo</a>
+      <a href="https://cash.app/$YourCashTag" class="cashapp" target="_blank">Cash App</a>
+    </div>
   </div>
 
+  <!-- Hoodie Option -->
+  <div class="item">
+    <div class="price">Hoodie – $75</div>
+    <div class="button-group">
+      <a href="https://venmo.com/YourVenmoUsername?txn=pay&amount=75&note=EL4E%20Hoodie" class="venmo" target="_blank">Venmo</a>
+      <a href="https://cash.app/$YourCashTag" class="cashapp" target="_blank">Cash App</a>
+    </div>
+  </div>
+
+  <!-- QR Code (Optional) -->
   <div class="qr">
-    <p>Or scan to donate:</p>
+    <p>Prefer to scan and pay?</p>
     <img src="venmo-qr.png" alt="Venmo QR Code" />
     <img src="cashapp-qr.png" alt="Cash App QR Code" />
   </div>
