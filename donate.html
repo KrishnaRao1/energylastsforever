@@ -1,1 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate | EL4E</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f5f5f5;
+    }
 
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+
+    .donate-links a {
+      display: inline-block;
+      margin: 10px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .venmo {
+      background-color: #3D95CE;
+    }
+
+    .cashapp {
+      background-color: #00D632;
+    }
+
+    .donate-links a:hover {
+      opacity: 0.85;
+    }
+
+    .qr {
+      margin-top: 30px;
+    }
+
+    .qr img {
+      width: 150px;
+      border-radius: 12px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Support Energy Lasts Forever 💸</h1>
+  <p>We appreciate your support. Every dollar helps us keep building.</p>
+
+  <div class="donate-links">
+    <a href="https://venmo.com/YourVenmoUsername" class="venmo" target="_blank">Donate via Venmo</a>
+    <a href="https://cash.app/$YourCashTag" class="cashapp" target="_blank">Donate via Cash App</a>
+  </div>
+
+  <div class="qr">
+    <p>Or scan to donate:</p>
+    <img src="venmo-qr.png" alt="Venmo QR Code" />
+    <img src="cashapp-qr.png" alt="Cash App QR Code" />
+  </div>
+
+</body>
+</html>
