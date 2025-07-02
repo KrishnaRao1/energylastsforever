@@ -1,79 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Lasts Forever</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Energy Lasts Forever</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+  <!-- Inline CSS for layout, hover zoom, and Buy Now buttons -->
+  <style>
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      width: 30%;
+      text-align: center;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .product img {
+      width: 100%;
+      max-width: 150px;
+      height: auto;
+      display: inline-block;
+      margin: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .product img:hover {
+      transform: scale(1.1);
+    }
+
+    .buy-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: black;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .buy-button:hover {
+      background-color: #333;
+    }
+
+    @media (max-width: 900px) {
+      .product {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .product {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        
-    </header>
+  <header></header>
 
-    <main id="home">
-        <section class="hero">
-            <!-- Larger Logo -->
-            <a href="/">
-                <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo">
-            </a>
+  <main id="home">
+    <section class="hero">
+      <a href="/">
+        <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+      </a>
 
-            <nav>
-            <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
-                <li><a href="donate.html">Pay</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-            </ul>
-            </nav>
-        </section>
+      <nav>
+        <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
+          <li><a href="donate.html">Pay</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </nav>
+    </section>
 
-        <section class="hero">
-            <h1>Official Collection</h2>
-            <p>YOUR ENERGY NEVER FADES</p>
-            
-            <div class="product-grid">
-                <div class="product">
-                    <h2>Black Essentials Tee</h2>
-                    <p>$34.99</p>
-                    <img src="BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front">
-                    <img src="BlackBack.png" alt="Black Essentials Tee Back">
-                </div>
-                
-                <div class="product">
-                    <h2>White Jelly Essentials Tee</h2>
-                    <p>$34.99</p>
-                    <img src="WhiteJellyFront.png" alt="White Jelly Essentials Tee Front">
-                    <img src="WhiteJellyBack.png" alt="White Jelly Essentials Tee Back">    
-                </div>
-                
-                <div class="product">
-                    <h2>Hooded Sweatshirt</h2>
-                    <p>$64.99</p>
-                    <img src="BlackHoodieFront.png" alt="Black Hoodie Front">
-                    <img src="BlackHoodieBack.png" alt="Black Hoodie Back">
-                </div>
+    <section class="hero">
+      <h1>Official Collection</h1>
+      <p>YOUR ENERGY NEVER FADES</p>
 
-                <div class="product">
-                    <h2>V2 Icey Tee</h2>
-                    <p>$34.99</p>
-                    <img src="V2iceyfront.png" alt="White Jelly Essentials Tee Front">
-                    <img src="V2iceyback.png" alt="White Jelly Essentials Tee Back">    
-                </div>
-                
-            </div>
-        </section>
-        
-        
-    </main>
-
-    <footer>
-        <p>&copy; 2025 ENERGY LASTS FOREVER</p>
-        <div class="social-icons">
-            <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
-                <img src="Instagram_icon.png" alt="Instagram Icon">
-            </a>
+      <div class="product-grid">
+        <div class="product">
+          <h2>Black Essentials Tee</h2>
+          <p>$34.99</p>
+          <img src="BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
+          <img src="BlackBack.png" alt="Black Essentials Tee Back" />
+          <a href="donate.html" class="buy-button">Buy Now</a>
         </div>
-    </footer>
+
+        <div class="product">
+          <h2>White Jelly Essentials Tee</h2>
+          <p>$34.99</p>
+          <img src="WhiteJellyFront.png" alt="White Jelly Essentials Tee Front" />
+          <img src="WhiteJellyBack.png" alt="White Jelly Essentials Tee Back" />
+          <a href="donate.html" class="buy-button">Buy Now</a>
+        </div>
+
+        <div class="product">
+          <h2>Hooded Sweatshirt</h2>
+          <p>$64.99</p>
+          <img src="BlackHoodieFront.png" alt="Black Hoodie Front" />
+          <img src="BlackHoodieBack.png" alt="Black Hoodie Back" />
+          <a href="donate.html" class="buy-button">Buy Now</a>
+        </div>
+
+        <div class="product">
+          <h2>V2 Icey Tee</h2>
+          <p>$34.99</p>
+          <img src="V2iceyfront.png" alt="V2 Icey Tee Front" />
+          <img src="V2iceyback.png" alt="V2 Icey Tee Back" />
+          <a href="donate.html" class="buy-button">Buy Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ENERGY LASTS FOREVER</p>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
+        <img src="Instagram_icon.png" alt="Instagram Icon" />
+      </a>
+    </div>
+  </footer>
 </body>
 </html>
