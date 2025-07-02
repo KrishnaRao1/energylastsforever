@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-  <!-- Inline CSS for layout, hover zoom, and Buy Now buttons -->
+  <!-- Inline CSS for layout and hover zoom -->
   <style>
     .product-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 30px;
     }
 
     .product {
@@ -24,33 +24,21 @@
       border-radius: 8px;
     }
 
-    .product img {
-      width: 100%;
-      max-width: 150px;
-      height: auto;
+    .product a {
       display: inline-block;
       margin: 5px;
-      transition: transform 0.3s ease;
+    }
+
+    .product img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      display: inline-block;
+      transition: transform 0.4s ease;
     }
 
     .product img:hover {
-      transform: scale(1.1);
-    }
-
-    .buy-button {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: black;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-
-    .buy-button:hover {
-      background-color: #333;
+      transform: scale(1.4);
     }
 
     @media (max-width: 900px) {
@@ -91,34 +79,42 @@
       <div class="product-grid">
         <div class="product">
           <h2>Black Essentials Tee</h2>
-          <p>$34.99</p>
-          <img src="BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
-          <img src="BlackBack.png" alt="Black Essentials Tee Back" />
-          <a href="donate.html" class="buy-button">Buy Now</a>
+          <a href="donate.html">
+            <img src="BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
+          </a>
+          <a href="donate.html">
+            <img src="BlackBack.png" alt="Black Essentials Tee Back" />
+          </a>
         </div>
 
         <div class="product">
           <h2>White Jelly Essentials Tee</h2>
-          <p>$34.99</p>
-          <img src="WhiteJellyFront.png" alt="White Jelly Essentials Tee Front" />
-          <img src="WhiteJellyBack.png" alt="White Jelly Essentials Tee Back" />
-          <a href="donate.html" class="buy-button">Buy Now</a>
+          <a href="donate.html">
+            <img src="WhiteJellyFront.png" alt="White Jelly Essentials Tee Front" />
+          </a>
+          <a href="donate.html">
+            <img src="WhiteJellyBack.png" alt="White Jelly Essentials Tee Back" />
+          </a>
         </div>
 
         <div class="product">
           <h2>Hooded Sweatshirt</h2>
-          <p>$64.99</p>
-          <img src="BlackHoodieFront.png" alt="Black Hoodie Front" />
-          <img src="BlackHoodieBack.png" alt="Black Hoodie Back" />
-          <a href="donate.html" class="buy-button">Buy Now</a>
+          <a href="donate.html">
+            <img src="BlackHoodieFront.png" alt="Black Hoodie Front" />
+          </a>
+          <a href="donate.html">
+            <img src="BlackHoodieBack.png" alt="Black Hoodie Back" />
+          </a>
         </div>
 
         <div class="product">
           <h2>V2 Icey Tee</h2>
-          <p>$34.99</p>
-          <img src="V2iceyfront.png" alt="V2 Icey Tee Front" />
-          <img src="V2iceyback.png" alt="V2 Icey Tee Back" />
-          <a href="donate.html" class="buy-button">Buy Now</a>
+          <a href="donate.html">
+            <img src="V2iceyfront.png" alt="V2 Icey Tee Front" />
+          </a>
+          <a href="donate.html">
+            <img src="V2iceyback.png" alt="V2 Icey Tee Back" />
+          </a>
         </div>
       </div>
     </section>
