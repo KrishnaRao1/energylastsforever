@@ -7,21 +7,24 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-  <!-- Inline CSS for layout and hover zoom -->
+  <!-- Inline CSS for clean layout and zoom hover -->
   <style>
     .product-grid {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 0 10px;
     }
 
     .product {
-      width: 30%;
+      flex: 0 0 30%;
       text-align: center;
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 8px;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
     }
 
     .product a {
@@ -31,7 +34,7 @@
 
     .product img {
       width: 100%;
-      max-width: 200px;
+      max-width: 220px;
       height: auto;
       display: inline-block;
       transition: transform 0.4s ease;
@@ -43,13 +46,13 @@
 
     @media (max-width: 900px) {
       .product {
-        width: 45%;
+        flex: 0 0 45%;
       }
     }
 
     @media (max-width: 600px) {
       .product {
-        width: 90%;
+        flex: 0 0 90%;
       }
     }
   </style>
@@ -104,16 +107,6 @@
           </a>
           <a href="donate.html">
             <img src="BlackHoodieBack.png" alt="Black Hoodie Back" />
-          </a>
-        </div>
-
-        <div class="product">
-          <h2>V2 Icey Tee</h2>
-          <a href="donate.html">
-            <img src="V2iceyfront.png" alt="V2 Icey Tee Front" />
-          </a>
-          <a href="donate.html">
-            <img src="V2iceyback.png" alt="V2 Icey Tee Back" />
           </a>
         </div>
       </div>
