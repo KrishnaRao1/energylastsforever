@@ -7,14 +7,13 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-  <!-- Inline CSS for clean layout and zoom hover -->
+  <!-- Inline CSS for clean layout and side-by-side images -->
   <style>
     .product-grid {
       display: flex;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: space-between;
-      gap: 20px;
-      overflow-x: auto;
+      gap: 30px;
       padding: 0 10px;
     }
 
@@ -27,20 +26,28 @@
       padding: 0;
     }
 
-    .product a {
-      display: inline-block;
-      margin: 5px;
+    .product h2 {
+      margin-bottom: 10px;
     }
 
-    .product img {
-      width: 100%;
-      max-width: 220px;
-      height: auto;
+    .product-images {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .product-images a {
       display: inline-block;
+    }
+
+    .product-images img {
+      width: 100%;
+      max-width: 150px;
+      height: auto;
       transition: transform 0.4s ease;
     }
 
-    .product img:hover {
+    .product-images img:hover {
       transform: scale(1.4);
     }
 
@@ -53,6 +60,14 @@
     @media (max-width: 600px) {
       .product {
         flex: 0 0 90%;
+      }
+
+      .product-images {
+        flex-direction: column;
+      }
+
+      .product-images img {
+        max-width: 100%;
       }
     }
   </style>
@@ -82,32 +97,50 @@
       <div class="product-grid">
         <div class="product">
           <h2>Black Essentials Tee</h2>
-          <a href="donate.html">
-            <img src="BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
-          </a>
-          <a href="donate.html">
-            <img src="BlackBack.png" alt="Black Essentials Tee Back" />
-          </a>
+          <div class="product-images">
+            <a href="donate.html">
+              <img src="BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
+            </a>
+            <a href="donate.html">
+              <img src="BlackBack.png" alt="Black Essentials Tee Back" />
+            </a>
+          </div>
         </div>
 
         <div class="product">
           <h2>White Jelly Essentials Tee</h2>
-          <a href="donate.html">
-            <img src="WhiteJellyFront.png" alt="White Jelly Essentials Tee Front" />
-          </a>
-          <a href="donate.html">
-            <img src="WhiteJellyBack.png" alt="White Jelly Essentials Tee Back" />
-          </a>
+          <div class="product-images">
+            <a href="donate.html">
+              <img src="WhiteJellyFront.png" alt="White Jelly Essentials Tee Front" />
+            </a>
+            <a href="donate.html">
+              <img src="WhiteJellyBack.png" alt="White Jelly Essentials Tee Back" />
+            </a>
+          </div>
         </div>
 
         <div class="product">
           <h2>Hooded Sweatshirt</h2>
-          <a href="donate.html">
-            <img src="BlackHoodieFront.png" alt="Black Hoodie Front" />
-          </a>
-          <a href="donate.html">
-            <img src="BlackHoodieBack.png" alt="Black Hoodie Back" />
-          </a>
+          <div class="product-images">
+            <a href="donate.html">
+              <img src="BlackHoodieFront.png" alt="Black Hoodie Front" />
+            </a>
+            <a href="donate.html">
+              <img src="BlackHoodieBack.png" alt="Black Hoodie Back" />
+            </a>
+          </div>
+        </div>
+
+        <div class="product">
+          <h2>V2 Icey Tee</h2>
+          <div class="product-images">
+            <a href="donate.html">
+              <img src="V2iceyfront.png" alt="V2 Icey Tee Front" />
+            </a>
+            <a href="donate.html">
+              <img src="V2iceyback.png" alt="V2 Icey Tee Back" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
