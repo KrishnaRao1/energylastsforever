@@ -42,7 +42,7 @@ const init = () => {
   canvas.height = offscreen.height + 50;
   ctx.translate(horizontalMargin, 25);
 
-  const fuzzRange = 10;
+  const fuzzRange = 3;
 
   const draw = () => {
     const intensity = isHovering ? hoverIntensity : baseIntensity;
