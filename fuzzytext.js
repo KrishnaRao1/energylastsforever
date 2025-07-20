@@ -5,7 +5,7 @@ const fontSize = 10;
 const fontWeight = 900;
 const fontFamily = "sans-serif";
 const color = "#ffffff";
-const baseIntensity = 0.18;
+const baseIntensity = 0.08;
 const hoverIntensity = 0.5;
 const enableHover = true;
 
@@ -42,7 +42,7 @@ const init = () => {
   canvas.height = offscreen.height + 50;
   ctx.translate(horizontalMargin, 25);
 
-  const fuzzRange = 30;
+  const fuzzRange = 10;
 
   const draw = () => {
     const intensity = isHovering ? hoverIntensity : baseIntensity;
