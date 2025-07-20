@@ -5,8 +5,8 @@ const fontSize = 10;
 const fontWeight = 900;
 const fontFamily = "sans-serif";
 const color = "#ffffff";
-const baseIntensity = 0.04;
-const hoverIntensity = 0.25;
+const baseIntensity = 0.01;
+const hoverIntensity = 0.01;
 const enableHover = true;
 
 let animationFrameId;
