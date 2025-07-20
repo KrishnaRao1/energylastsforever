@@ -1,7 +1,7 @@
 const canvas = document.getElementById("fuzzyCanvas");
 
-const text = "Energy Lasts Forever";
-const fontSize = 100;
+const text = "© 2025 ENERGY LASTS FOREVER";
+const fontSize = 40;
 const fontWeight = 900;
 const fontFamily = "sans-serif";
 const color = "#ffffff";
