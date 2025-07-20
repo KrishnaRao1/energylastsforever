@@ -1,84 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Lasts Forever</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Lasts Forever</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-    <header>
-        
-    </header>
+  <header>
+    <!-- Add header content if needed -->
+  </header>
 
-    <main id="home">
-        <section class="hero">
-            <!-- Larger Logo -->
-            <a href="/">
-                <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo">
-            </a>
-            <!-- Date and Time Section -->
-            <p id="dateTime">Loading date and time...</p>
-            
-            <nav>
-            <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
-                <li><a href="shop.html">Apparel</a></li>
-                <li><a href="donate.html">Pay</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="stats.html">Sports / Statistics</a></li>
-                
-                
-                
-            </ul>
-            </nav>
-        </section>
+  <main id="home">
+    <section class="hero">
+      <!-- Larger Logo -->
+      <a href="/">
+        <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+      </a>
 
-        
-    </main>
+      <!-- Date and Time -->
+      <p id="dateTime">Loading date and time...</p>
 
-    <footer>
-        <p>&copy; ENERGY LASTS FOREVER</p>
-        <div class="social-icons">
-            <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
-                <img src="Instagram_icon.png" alt="Instagram Icon">
-            </a>
-        </div>
-    </footer>
+      <!-- Navigation -->
+      <nav>
+        <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
+          <li><a href="shop.html">Apparel</a></li>
+          <li><a href="donate.html">Pay</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="stats.html">Sports / Statistics</a></li>
+        </ul>
+      </nav>
+    </section>
+  </main>
 
-    <!-- Inline JavaScript -->
-    <script>
-        // Function to update date and time
-        function updateDateTime() {
-            const optionsDate = {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                timeZone: 'America/Los_Angeles'
-            };
-            const now = new Date();
+  <!-- Footer -->
+  <footer>
+    <!-- Fuzzy canvas -->
+    <canvas id="fuzzyCanvas" style="width: 100%; height: 100px;"></canvas>
 
-    // Format the date
-            const date = new Intl.DateTimeFormat('en-US', optionsDate).format(now);
+    <!-- Social Icons -->
+    <div class="social-icons">
+      <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
+        <img src="Instagram_icon.png" alt="Instagram Icon" />
+      </a>
+    </div>
+  </footer>
 
-    // Format the time manually to remove the space and make `am/pm` lowercase
-            const hours = now.getHours() % 12 || 12; // Convert to 12-hour format
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const period = now.getHours() >= 12 ? 'pm' : 'am'; // Lowercase period
+  <!-- Date/Time Script -->
+  <script>
+    function updateDateTime() {
+      const optionsDate = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'America/Los_Angeles',
+      };
+      const now = new Date();
+      const date = new Intl.DateTimeFormat('en-US', optionsDate).format(now);
+      const hours = now.getHours() % 12 || 12;
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const period = now.getHours() >= 12 ? 'pm' : 'am';
+      const time = `${hours}:${minutes}${period}`;
+      document.getElementById('dateTime').textContent = `${date} ${time}`;
+    }
 
-            const time = `${hours}:${minutes}${period}`; // Combine time and period
+    setInterval(updateDateTime, 60000);
+    updateDateTime();
+  </script>
 
-    // Update the element
-            document.getElementById('dateTime').textContent = `${date} ${time}`;
-}
+  <!-- Fuzzy Footer Text Script -->
+  <script src="fuzzytext.js"></script>
 
-// Update every minute since seconds are not displayed
-setInterval(updateDateTime, 60000);
-updateDateTime();
-    </script>
-
-    <!-- External JavaScript File (Only if Needed) -->
-    <script src="script.js"></script>
+  <!-- Optional external site scripts -->
+  <script src="script.js"></script>
 </body>
 </html>
