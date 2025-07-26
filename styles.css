@@ -40,17 +40,15 @@ header nav ul li a {
 }
 
 .hero {
-    background-color: #D3D3D3; /* Your existing background color */
+    background-color: transparent; /* or rgba(0,0,0,0.5) for overlay */
     color: white;
-    text-align: center; /* Keep text centered */
+    text-align: center;
     padding: 100px 20px;
-
-    /* Flexbox for alignment */
-    display: flex; 
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    gap: 20px; /* Add space between elements */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
 
