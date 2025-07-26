@@ -2,7 +2,7 @@ body {
   font-family: Roboto, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('../space.jpg');
+  background-image: url('space.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -11,9 +11,15 @@ body {
 }
 
 header {
-    background-color: #D3D3D3; /* Change background color */
-    color: #D3D3D3; /* Change color of headings */
-    padding: 1rem;
+  background-image: url('space.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 1rem;
+  color: white;
+  /* Optional: add a semi-transparent overlay for readability */
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: overlay;
 }
 
 header nav ul {
