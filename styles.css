@@ -301,7 +301,7 @@ form label {
 
 
 .smaller-product-img {
-  max-width: 100px; /* Adjust as needed */
+  max-width: 50px; /* Adjust as needed */
   transform: scale(1); /* Maintain hover zoom */
 }
 
