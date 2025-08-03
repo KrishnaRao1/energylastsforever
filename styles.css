@@ -6,29 +6,18 @@
   font-display: swap;
 }
 
-
 body {
   font-family: 'Orbitron Black', sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('spaceV2.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  color: white;
+  background-color: #B6B6B6; /* Updated */
+  color: black; /* Updated for contrast */
 }
 
 header {
-  background-image: url('spaceV2.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: #B6B6B6; /* Updated */
   padding: 1rem;
-  color: white;
-  /* Optional: add a semi-transparent overlay for readability */
-  background-color: rgba(0, 0, 0, 0.5);
-  background-blend-mode: overlay;
+  color: black; /* Updated for contrast */
 }
 
 header nav ul {
@@ -44,13 +33,13 @@ header nav ul li {
 }
 
 header nav ul li a {
-    color: #fff;
+    color: black; /* Updated for contrast */
     text-decoration: none;
 }
 
 .hero {
-    background-color: transparent; /* or rgba(0,0,0,0.5) for overlay */
-    color: white;
+    background-color: transparent;
+    color: black; /* Updated for contrast */
     text-align: center;
     padding: 100px 20px;
     display: flex;
@@ -59,7 +48,6 @@ header nav ul li a {
     justify-content: center;
     gap: 20px;
 }
-
 
 h1 {
     font-size: 3rem;
@@ -91,12 +79,8 @@ form button {
 }
 
 footer {
-  background-image: url('spaceV2.jpg') ;
-  background-size: cover ;
-  background-repeat: no-repeat ;
-  background-position: center bottom ;
-  background-color: transparent ;
-  color: white;
+  background-color: #B6B6B6; /* Updated */
+  color: black; /* Updated for contrast */
   padding: 20px 0;
   text-align: center;
   font-size: 1rem;
