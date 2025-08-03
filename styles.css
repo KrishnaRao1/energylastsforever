@@ -11,13 +11,13 @@ body {
   margin: 0;
   padding: 0;
   background-color: #B6B6B6; /* Updated */
-  color: black; /* Updated for contrast */
+  color: white; /* Updated for contrast */
 }
 
 header {
   background-color: #B6B6B6; /* Updated */
   padding: 1rem;
-  color: black; /* Updated for contrast */
+  color: white; /* Updated for contrast */
 }
 
 header nav ul {
