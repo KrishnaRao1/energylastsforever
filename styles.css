@@ -10,12 +10,12 @@ body {
   font-family: 'Orbitron Black', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #B6B6B6; /* Updated */
+  background-color: #B6B6B6; 
   color: white; /* Keep text white */
 }
 
 header {
-  background-color: #B6B6B6; /* Updated */
+  background-color: #B6B6B6; 
   padding: 1rem;
   color: white; /* Text color remains white */
 }
