@@ -105,7 +105,7 @@
       const hours = now.getHours() % 12 || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
       const period = now.getHours() >= 12 ? 'pm' : 'am';
-      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} PT, CA`;
+      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} CA`;
     }
     setInterval(updateDateTime, 60000);
     updateDateTime();
