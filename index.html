@@ -36,7 +36,6 @@
       width: 80px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       z-index: 100;
       pointer-events: none;
       overflow: hidden;
@@ -46,12 +45,12 @@
     .side-logos a {
       pointer-events: all;
       display: block;
-      flex-shrink: 0;
+      flex: 1;
     }
     .side-logos img {
       width: 80px;
-      height: 80px;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       opacity: 0.7;
       display: block;
       transition: opacity 0.2s, transform 0.2s;
@@ -63,37 +62,8 @@
 </head>
 <body>
 
-  <div class="side-logos left">
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-  </div>
-
-  <div class="side-logos right">
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-  </div>
+  <div class="side-logos left" id="leftLogos"></div>
+  <div class="side-logos right" id="rightLogos"></div>
 
   <header></header>
   <main id="home">
@@ -123,6 +93,18 @@
   <footer></footer>
 
   <script>
+    // Fill side logos dynamically to cover full screen height
+    function fillSideLogos() {
+      const logoSize = 80;
+      const count = Math.ceil(window.innerHeight / logoSize);
+      const html = Array(count).fill(`<a href="/"><img src="el4e v4.png" alt="Home" /></a>`).join('');
+      document.getElementById('leftLogos').innerHTML = html;
+      document.getElementById('rightLogos').innerHTML = html;
+    }
+    fillSideLogos();
+    window.addEventListener('resize', fillSideLogos);
+
+    // Date/time
     function updateDateTime() {
       const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Los_Angeles' };
       const now = new Date();
@@ -130,7 +112,7 @@
       const hours = now.getHours() % 12 || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
       const period = now.getHours() >= 12 ? 'pm' : 'am';
-      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} CA`;
+      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} PT, CA`;
     }
     setInterval(updateDateTime, 60000);
     updateDateTime();
