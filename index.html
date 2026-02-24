@@ -32,27 +32,31 @@
     .side-logos {
       position: fixed;
       top: 0;
-      height: 100%;
+      height: 100vh;
+      width: 80px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      gap: 2px;
       z-index: 100;
       pointer-events: none;
+      overflow: hidden;
     }
-    .side-logos.left { left: 5px; }
-    .side-logos.right { right: 5px; }
-    .side-logos a { pointer-events: all; }
+    .side-logos.left { left: 0; }
+    .side-logos.right { right: 0; }
+    .side-logos a {
+      pointer-events: all;
+      display: block;
+      flex-shrink: 0;
+    }
     .side-logos img {
       width: 80px;
       height: 80px;
       object-fit: contain;
       opacity: 0.7;
-      transition: opacity 0.2s, transform 0.2s;
       display: block;
+      transition: opacity 0.2s, transform 0.2s;
     }
-    .side-logos img:hover { opacity: 1; transform: scale(1.1); }
+    .side-logos img:hover { opacity: 1; transform: scale(1.05); }
 
     @media (max-width: 768px) { .side-logos { display: none; } }
   </style>
@@ -67,9 +71,21 @@
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
   </div>
 
   <div class="side-logos right">
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
@@ -93,10 +109,10 @@
           <li><a href="DataScience.html">Data</a></li>
           <li class="social-icons">
             <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
-              <img src="icons/Instagram_icon.png" alt="Instagram Icon" />
+              <img src="icons/Instagram.png" alt="Instagram Icon" />
             </a>
             <a href="https://www.linkedin.com/in/YOUR-PROFILE/" target="_blank" aria-label="LinkedIn">
-              <img src="icons/linkedin_icon.png" alt="LinkedIn Icon" />
+              <img src="icons/linkedin.png" alt="LinkedIn Icon" />
             </a>
           </li>
         </ul>
@@ -114,7 +130,7 @@
       const hours = now.getHours() % 12 || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
       const period = now.getHours() >= 12 ? 'pm' : 'am';
-      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} Southern California`;
+      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} CA`;
     }
     setInterval(updateDateTime, 60000);
     updateDateTime();
