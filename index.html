@@ -78,19 +78,20 @@
           <li><a href="gallery.html">Gallery</a></li>
           <li><a href="about.html">EnergyLastsForever</a></li>
           <li><a href="DataScience.html">Data</a></li>
+          <li class="social-icons">
+            <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
+              <img src="icons/Instagram_icon.png" alt="Instagram Icon" />
+            </a>
+            <a href="https://www.linkedin.com/in/YOUR-PROFILE/" target="_blank" aria-label="LinkedIn">
+              <img src="icons/linkedin_icon.png" alt="LinkedIn Icon" />
+            </a>
+          </li>
         </ul>
       </nav>
     </section>
   </main>
 
-  <footer>
-    <canvas id="fuzzyCanvas" style="width: 100%; height: 100px;"></canvas>
-    <div class="social-icons">
-      <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
-        <img src="icons/Instagram_icon.png" alt="Instagram Icon" />
-      </a>
-    </div>
-  </footer>
+  <footer></footer>
 
   <script>
     function updateDateTime() {
@@ -100,13 +101,8 @@
       const hours = now.getHours() % 12 || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
       const period = now.getHours() >= 12 ? 'pm' : 'am';
-      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period}`;
+      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} CA`;
     }
     setInterval(updateDateTime, 60000);
     updateDateTime();
   </script>
-  <script src="fuzzytext.js"></script>
-  <script src="script.js"></script>
-
-</body>
-</html>
