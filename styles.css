@@ -114,16 +114,16 @@ footer p {
     transform: scale(1.2); /* Slightly enlarge icon on hover */
     opacity: 0.8; /* Slight transparency on hover */
 }
-
-
 .hero-image {
-    width: 500px; /* Adjust as needed */
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto; /* Ensure no extra left/right offset */
-    position: relative;
-    left: 15px;
+  width: 500px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  position: static;
+  left: 0;
 }
+
 
 form label {
     color: white;
