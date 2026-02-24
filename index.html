@@ -7,14 +7,37 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    main#home {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
     .side-logos {
       position: fixed;
       top: 0;
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: center;
       align-items: center;
+      gap: 2px;
       z-index: 100;
       pointer-events: none;
     }
@@ -22,13 +45,15 @@
     .side-logos.right { right: 5px; }
     .side-logos a { pointer-events: all; }
     .side-logos img {
-      width: 40px;
-      height: 40px;
+      width: 80px;
+      height: 80px;
       object-fit: contain;
       opacity: 0.7;
       transition: opacity 0.2s, transform 0.2s;
+      display: block;
     }
-    .side-logos img:hover { opacity: 1; transform: scale(1.2); }
+    .side-logos img:hover { opacity: 1; transform: scale(1.1); }
+
     @media (max-width: 768px) { .side-logos { display: none; } }
   </style>
 </head>
@@ -42,21 +67,9 @@
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
   </div>
 
   <div class="side-logos right">
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
-    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
     <a href="/"><img src="el4e v4.png" alt="Home" /></a>
@@ -101,8 +114,12 @@
       const hours = now.getHours() % 12 || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
       const period = now.getHours() >= 12 ? 'pm' : 'am';
-      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} CA`;
+      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period} PT, CA`;
     }
     setInterval(updateDateTime, 60000);
     updateDateTime();
   </script>
+  <script src="script.js"></script>
+
+</body>
+</html>
