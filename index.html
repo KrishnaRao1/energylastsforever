@@ -6,23 +6,71 @@
   <title>Energy Lasts Forever</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .side-logos {
+      position: fixed;
+      top: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .side-logos.left { left: 5px; }
+    .side-logos.right { right: 5px; }
+    .side-logos a { pointer-events: all; }
+    .side-logos img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      opacity: 0.7;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .side-logos img:hover { opacity: 1; transform: scale(1.2); }
+    @media (max-width: 768px) { .side-logos { display: none; } }
+  </style>
 </head>
 <body>
-  <header>
-    <!-- Add header content if needed -->
-  </header>
 
+  <div class="side-logos left">
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+  </div>
+
+  <div class="side-logos right">
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+    <a href="/"><img src="el4e v4.png" alt="Home" /></a>
+  </div>
+
+  <header></header>
   <main id="home">
     <section class="hero">
-      <!-- Larger Logo -->
-      <a href="/">
-        <img src="el4e v4.png" class="hero-image" alt="Energy Lasts Forever Logo" />
-      </a>
-
-      <!-- Date and Time -->
-      <p id="dateTime" class="time-text" >Loading date and time...</p>
-
-      <!-- Navigation -->
+      <a href="/"><img src="el4e v4.png" class="hero-image" alt="Energy Lasts Forever Logo" /></a>
+      <p id="dateTime" class="time-text">Loading date and time...</p>
       <nav>
         <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
           <li><a href="/shop/">Apparel</a></li>
@@ -35,12 +83,8 @@
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
-    <!-- Fuzzy canvas -->
     <canvas id="fuzzyCanvas" style="width: 100%; height: 100px;"></canvas>
-
-    <!-- Social Icons -->
     <div class="social-icons">
       <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
         <img src="icons/Instagram_icon.png" alt="Instagram Icon" />
@@ -48,32 +92,21 @@
     </div>
   </footer>
 
-  <!-- Date/Time Script -->
   <script>
     function updateDateTime() {
-      const optionsDate = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        timeZone: 'America/Los_Angeles',
-      };
+      const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Los_Angeles' };
       const now = new Date();
       const date = new Intl.DateTimeFormat('en-US', optionsDate).format(now);
       const hours = now.getHours() % 12 || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
       const period = now.getHours() >= 12 ? 'pm' : 'am';
-      const time = `${hours}:${minutes}${period}`;
-      document.getElementById('dateTime').textContent = `${date} ${time}`;
+      document.getElementById('dateTime').textContent = `${date} ${hours}:${minutes}${period}`;
     }
-
     setInterval(updateDateTime, 60000);
     updateDateTime();
   </script>
-
-  <!-- Fuzzy Footer Text Script -->
   <script src="fuzzytext.js"></script>
-
-  <!-- Optional external site scripts -->
   <script src="script.js"></script>
+
 </body>
 </html>
