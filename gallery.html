@@ -1,74 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Lasts Forever</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery – Energy Lasts Forever</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    .gallery-title {
+      text-align: center;
+      color: #800080;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      padding: 20px 0 30px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      padding: 0 40px 60px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 25px rgba(128, 0, 128, 0.4);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0px 0px 40px rgba(128, 0, 128, 0.5);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      font-family: 'Orbitron Black', sans-serif;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+  </style>
 </head>
 <body>
-    <header>
-        
-    </header>
+  <header></header>
 
-    <main id="home">
-        <section class="hero">
-            <!-- Larger Logo -->
-            <a href="/">
-                <img src="EL4E Back Logo.png" class="hero-image" alt="Energy Lasts Forever Logo">
-            </a>
+  <main id="home">
+    <section class="hero">
+      <a href="/">
+        <img src="/el4e v4.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+      </a>
+      <nav>
+        <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
+          <li><a href="/shop/">Apparel</a></li>
+          <li><a href="/donate.html">Pay</a></li>
+        </ul>
+      </nav>
+    </section>
 
-            
-            <nav>
-            <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
-                <li><a href="shop.html">Apparel</a></li>
-                <li><a href="donate.html">Pay</a></li>
-            </ul>
-            </nav>
-        </section>
+    <p class="gallery-title">Gallery</p>
 
-        <section id="Gallery">
-            <h2>Gallery</h2>
-            <div class="gallery-grid">
-                <img src="pictures/BackLizard.jpeg" alt="Product 1">
-                <img src="pictures/el4eFunction.jpeg" alt="Product 2">
-                <img src="pictures/el4eYosemite.jpeg" alt="Product 3">
-                <img src="pictures/Springel4e.jpeg" alt="Product 4">
-                <img src="pictures/el4eCody.jpeg" alt="Product 5">
-                <img src="pictures/ABel4e.jpeg" alt="Product 6">
-                <img src="pictures/BagCallin.jpeg" alt="Product 7">
-                <img src="pictures/NYC.jpeg" alt="Product 8">
-                <img src="pictures/el4eTravisDel.jpeg" alt="Product 9">
-                <img src="pictures/DevinHoodie.jpeg" alt="Product 10">
-                <img src="pictures/CodyBeach.jpeg" alt="Product 11">
-                <img src="pictures/Kenel4e.jpeg" alt="Product 12">
-                <img src="pictures/Chumash.jpeg" alt="Product 13">
-                <img src="pictures/KFlick.jpeg" alt="Product 14">
-                <img src="pictures/KBeach.jpeg" alt="Product 15">
-                <img src="pictures/Day1Flick.jpeg" alt="Product 16">
-                <img src="pictures/6659 abrego.jpeg" alt="Product 17">
-                <img src="pictures/V2 Orignial.jpeg" alt="Product 18">
-                <img src="pictures/BB.jpeg" alt="Product 19">
-                <img src="pictures/Backyard.jpeg" alt="Product 20">
-                <img src="pictures/yang.jpeg" alt="Product 21">
-                <img src="pictures/mangoneh.jpeg" alt="Product 22">
-                <img src="pictures/hoodiebeach.jpeg" alt="Product 23">
-                <img src="pictures/b2bh.jpeg" alt="Product 24">
-            </div>
-        </section>
+    <div class="gallery-grid">
+      <img src="/pictures/BackLizard.jpeg" alt="Gallery" />
+      <img src="/pictures/el4eFunction.jpeg" alt="Gallery" />
+      <img src="/pictures/el4eYosemite.jpeg" alt="Gallery" />
+      <img src="/pictures/Springel4e.jpeg" alt="Gallery" />
+      <img src="/pictures/el4eCody.jpeg" alt="Gallery" />
+      <img src="/pictures/ABel4e.jpeg" alt="Gallery" />
+      <img src="/pictures/BagCallin.jpeg" alt="Gallery" />
+      <img src="/pictures/NYC.jpeg" alt="Gallery" />
+      <img src="/pictures/el4eTravisDel.jpeg" alt="Gallery" />
+      <img src="/pictures/DevinHoodie.jpeg" alt="Gallery" />
+      <img src="/pictures/CodyBeach.jpeg" alt="Gallery" />
+      <img src="/pictures/Kenel4e.jpeg" alt="Gallery" />
+      <img src="/pictures/Chumash.jpeg" alt="Gallery" />
+      <img src="/pictures/KFlick.jpeg" alt="Gallery" />
+      <img src="/pictures/KBeach.jpeg" alt="Gallery" />
+      <img src="/pictures/Day1Flick.jpeg" alt="Gallery" />
+      <img src="/pictures/6659 abrego.jpeg" alt="Gallery" />
+      <img src="/pictures/V2 Orignial.jpeg" alt="Gallery" />
+      <img src="/pictures/BB.jpeg" alt="Gallery" />
+      <img src="/pictures/Backyard.jpeg" alt="Gallery" />
+      <img src="/pictures/yang.jpeg" alt="Gallery" />
+      <img src="/pictures/mangoneh.jpeg" alt="Gallery" />
+      <img src="/pictures/hoodiebeach.jpeg" alt="Gallery" />
+      <img src="/pictures/b2bh.jpeg" alt="Gallery" />
+    </div>
+  </main>
 
-    </main>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">✕</span>
+    <img id="lightboxImg" src="" alt="Expanded" />
+  </div>
 
-    <footer>
-      <canvas id="fuzzyCanvas" style="width: 100%; height: 100px;"></canvas>
-      <div class="social-icons">
-        <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
-          <img src="Instagram_icon.png" alt="Instagram Icon" />
-        </a>
-      </div>
-    </footer>
+  <footer>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
+        <img src="/icons/Instagram.png" alt="Instagram Icon" />
+      </a>
+    </div>
+  </footer>
 
-<script src="fuzzytext.js"></script>
+  <script>
+    const imgs = document.querySelectorAll('.gallery-grid img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    imgs.forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.add('active');
+      });
+    });
+
+    lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.classList.remove('active');
+    });
+  </script>
+
 </body>
 </html>
