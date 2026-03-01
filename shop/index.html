@@ -6,18 +6,17 @@
   <title>Energy Lasts Forever</title>
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
   <style>
     .product-grid {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 30px;
-      padding: 0 10px;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 20px;
     }
 
     .product {
-      flex: 0 0 30%;
+      flex: 0 0 150px;
       text-align: center;
       border: none;
       background: transparent;
@@ -25,11 +24,16 @@
       padding: 0;
     }
 
-    .product h2 { margin-bottom: 10px; }
+    .product h2 {
+      font-size: 0.6rem;
+      margin-bottom: 8px;
+      color: white;
+      letter-spacing: 1px;
+    }
 
     .product-flip {
       position: relative;
-      width: 250px;
+      width: 150px;
       margin: 0 auto;
       cursor: pointer;
     }
@@ -39,6 +43,7 @@
       height: auto;
       display: block;
       transition: opacity 0.4s ease;
+      border-radius: 4px;
     }
 
     .product-flip .back {
@@ -51,13 +56,23 @@
     .product-flip:hover .front { opacity: 0; }
     .product-flip:hover .back { opacity: 1; }
 
-    @media (max-width: 900px) { .product { flex: 0 0 45%; } }
-    @media (max-width: 600px) { .product { flex: 0 0 90%; } }
+    .collection-title {
+      text-align: center;
+      color: #800080;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 1rem;
+      padding: 10px 0 20px;
+    }
+
+    @media (max-width: 600px) {
+      .product { flex: 0 0 120px; }
+      .product-flip { width: 120px; }
+    }
   </style>
 </head>
 <body>
   <header></header>
-
   <main id="home">
     <section class="hero">
       <a href="/">
@@ -71,63 +86,61 @@
       </nav>
     </section>
 
-    <section class="hero">
-      <h1>Official Collection</h1>
+    <p class="collection-title">Official Collection</p>
 
-      <div class="product-grid">
+    <div class="product-grid">
 
-        <div class="product">
-          <h2>Space Black Essentials Tee <br>(Sold out)</h2>
-          <a href="/products/space black.html">
-            <div class="product-flip">
-              <img class="front" src="/mockups/BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
-              <img class="back" src="/mockups/BlackBack.png" alt="Black Essentials Tee Back" />
-            </div>
-          </a>
-        </div>
-
-        <div class="product">
-          <h2>White Jelly Essentials Tee <br>(Sold out)</h2>
-          <a href="/products/white jelly.html">
-            <div class="product-flip">
-              <img class="front" src="/mockups/WhiteJellyFront.png" alt="White Jelly Tee Front" />
-              <img class="back" src="/mockups/WhiteJellyBack.png" alt="White Jelly Tee Back" />
-            </div>
-          </a>
-        </div>
-
-        <div class="product">
-          <h2>Hooded Sweatshirt <br>(Sold out)</h2>
-          <a href="/products/bolt hoodie.html">
-            <div class="product-flip">
-              <img class="front" src="/mockups/BlackHoodieFront.png" alt="Black Hoodie Front" />
-              <img class="back" src="/mockups/BlackHoodieBack.png" alt="Black Hoodie Back" />
-            </div>
-          </a>
-        </div>
-
-        <div class="product">
-          <h2>V2 Rain Drop Tee</h2>
-          <a href="/products/v2 rain drop.html">
-            <div class="product-flip">
-              <img class="front" src="/mockups/drop back.png" alt="Rain Drop Front" />
-              <img class="back" src="/mockups/drop front.png" alt="Rain Drop Back" />
-            </div>
-          </a>
-        </div>
-
-        <div class="product">
-          <h2>V2 Tree</h2>
-          <a href="/products/v2 tree.html">
-            <div class="product-flip">
-              <img class="front" src="/mockups/tre front.png" alt="Tree Front" />
-              <img class="back" src="/mockups/tre back.png" alt="Tree Back" />
-            </div>
-          </a>
-        </div>
-
+      <div class="product">
+        <h2>Space Black Essentials Tee<br>(Sold Out)</h2>
+        <a href="/products/space black.html">
+          <div class="product-flip">
+            <img class="front" src="/mockups/BlackEssentialsTeeFront.png" alt="Black Essentials Tee Front" />
+            <img class="back" src="/mockups/BlackBack.png" alt="Black Essentials Tee Back" />
+          </div>
+        </a>
       </div>
-    </section>
+
+      <div class="product">
+        <h2>White Jelly Essentials Tee<br>(Sold Out)</h2>
+        <a href="/products/white jelly.html">
+          <div class="product-flip">
+            <img class="front" src="/mockups/WhiteJellyFront.png" alt="White Jelly Tee Front" />
+            <img class="back" src="/mockups/WhiteJellyBack.png" alt="White Jelly Tee Back" />
+          </div>
+        </a>
+      </div>
+
+      <div class="product">
+        <h2>Hooded Sweatshirt<br>(Sold Out)</h2>
+        <a href="/products/bolt hoodie.html">
+          <div class="product-flip">
+            <img class="front" src="/mockups/BlackHoodieFront.png" alt="Black Hoodie Front" />
+            <img class="back" src="/mockups/BlackHoodieBack.png" alt="Black Hoodie Back" />
+          </div>
+        </a>
+      </div>
+
+      <div class="product">
+        <h2>V2 Rain Drop Tee</h2>
+        <a href="/products/v2 rain drop.html">
+          <div class="product-flip">
+            <img class="front" src="/mockups/drop back.png" alt="Rain Drop Front" />
+            <img class="back" src="/mockups/drop front.png" alt="Rain Drop Back" />
+          </div>
+        </a>
+      </div>
+
+      <div class="product">
+        <h2>V2 Tree</h2>
+        <a href="/products/v2 tree.html">
+          <div class="product-flip">
+            <img class="front" src="/mockups/tre front.png" alt="Tree Front" />
+            <img class="back" src="/mockups/tre back.png" alt="Tree Back" />
+          </div>
+        </a>
+      </div>
+
+    </div>
   </main>
 
   <footer>
@@ -137,6 +150,5 @@
       </a>
     </div>
   </footer>
-
 </body>
 </html>
