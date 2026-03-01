@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+Same fix — just remove the hover transform from .product-img-wrap img:
+html<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +7,6 @@
   <title>White Jelly Essentials Tee – Energy Lasts Forever</title>
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
   <style>
     .product-page {
       display: flex;
@@ -17,34 +17,29 @@
       padding: 60px 20px;
       gap: 40px;
     }
-
     .product-page h1 {
       font-size: 2rem;
       text-align: center;
       color: white;
     }
-
     .product-page .sold-out {
       font-size: 1rem;
       color: #800080;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
-
     .product-images-container {
       display: flex;
       gap: 30px;
       justify-content: center;
       flex-wrap: wrap;
     }
-
     .product-img-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
     }
-
     .product-img-wrap span {
       font-size: 0.85rem;
       color: white;
@@ -52,20 +47,12 @@
       text-transform: uppercase;
       opacity: 0.7;
     }
-
     .product-img-wrap img {
       width: 280px;
       max-width: 100%;
       height: auto;
       border-radius: 8px;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
-
-    .product-img-wrap img:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 8px 25px rgba(128, 0, 128, 0.4);
-    }
-
     .product-description {
       max-width: 600px;
       text-align: center;
@@ -74,7 +61,6 @@
       line-height: 1.8;
       opacity: 0.9;
     }
-
     .back-link {
       display: inline-block;
       margin-top: 10px;
@@ -87,12 +73,10 @@
       font-family: 'Orbitron Black', sans-serif;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     .back-link:hover {
       transform: scale(1.05);
       box-shadow: 0px 0px 14px rgba(128, 0, 128, 0.7);
     }
-
     .divider {
       width: 60px;
       height: 2px;
@@ -102,21 +86,15 @@
   </style>
 </head>
 <body>
-
   <header></header>
-
   <main>
     <div class="product-page">
-
       <a href="/">
         <img src="/el4e v4.png" class="hero-image" alt="Energy Lasts Forever Logo" />
       </a>
-
       <h1>White Jelly</h1>
       <p class="sold-out">Sold Out</p>
-
       <hr class="divider" />
-
       <div class="product-images-container">
         <div class="product-img-wrap">
           <img src="/mockups/WhiteJellyFront.png" alt="White Jelly Tee Front" />
@@ -127,19 +105,13 @@
           <span>Back</span>
         </div>
       </div>
-
       <hr class="divider" />
-
       <p class="product-description">
         Purple Box Logo
       </p>
-
       <a href="/shop/" class="back-link">← Back to Collection</a>
-
     </div>
   </main>
-
   <footer></footer>
-
 </body>
 </html>
