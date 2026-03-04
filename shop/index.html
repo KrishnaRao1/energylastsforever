@@ -34,13 +34,15 @@
     .product-flip {
       position: relative;
       width: 150px;
+      height: 200px;
       margin: 0 auto;
       cursor: pointer;
     }
 
     .product-flip img {
       width: 100%;
-      height: auto;
+      height: 200px;
+      object-fit: cover;
       display: block;
       transition: opacity 0.4s ease;
       border-radius: 4px;
@@ -67,7 +69,8 @@
 
     @media (max-width: 600px) {
       .product { flex: 0 0 120px; }
-      .product-flip { width: 120px; }
+      .product-flip { width: 120px; height: 160px; }
+      .product-flip img { height: 160px; }
     }
   </style>
 </head>
@@ -101,7 +104,7 @@
       </div>
 
       <div class="product">
-        <h2>White Jelly </h2>
+        <h2>White Jelly</h2>
         <a href="/products/white jelly.html">
           <div class="product-flip">
             <img class="front" src="/mockups/WhiteJellyFront.png" alt="White Jelly Tee Front" />
