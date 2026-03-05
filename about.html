@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,6 @@
 
     html, body { height: 100%; }
 
-    /* Scanline overlay */
     body::before {
       content: '';
       position: fixed;
@@ -30,18 +29,6 @@
 
     .hero {
       padding: 60px 20px 20px;
-    }
-
-    /* Watermark logo */
-    .watermark {
-      position: fixed;
-      bottom: -60px;
-      right: -60px;
-      width: 400px;
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: 0;
-      transform: rotate(-15deg);
     }
 
     .about-grid {
@@ -66,7 +53,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Corner accents */
     .about-content::before,
     .about-content::after {
       content: '';
@@ -118,7 +104,6 @@
       margin: 60px 0;
     }
 
-    /* Contact section */
     .contact {
       position: relative;
       z-index: 1;
@@ -162,7 +147,6 @@
       color: #800080;
     }
 
-    /* Glowing divider line */
     .divider-horizontal {
       width: 1px;
       height: 60px;
@@ -178,9 +162,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Watermark -->
-  <img src="/el4e v4.png" class="watermark" alt="" />
 
   <header></header>
   <main id="home">
@@ -224,7 +205,7 @@
   <footer>
     <div class="social-icons">
       <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
-        <img src="/icons/insta.png" alt="Instagram Icon" />
+        <img src="/icons/Instagram.png" alt="Instagram Icon" />
       </a>
     </div>
   </footer>
