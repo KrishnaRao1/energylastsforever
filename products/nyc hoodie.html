@@ -1,0 +1,116 @@
+html<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NYC Subway Hoodie – Energy Lasts Forever</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <style>
+    .product-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 20px;
+      gap: 40px;
+    }
+    .product-page h1 {
+      font-size: 2rem;
+      text-align: center;
+      color: white;
+    }
+    .product-page .sold-out {
+      font-size: 1rem;
+      color: #800080;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .product-images-container {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .product-img-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .product-img-wrap span {
+      font-size: 0.85rem;
+      color: white;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .product-img-wrap img {
+      width: 280px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .product-description {
+      max-width: 600px;
+      text-align: center;
+      font-size: 1rem;
+      color: white;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+    .back-link {
+      display: inline-block;
+      padding: 12px 28px;
+      background-color: transparent;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 1rem;
+      font-family: 'Orbitron Black', sans-serif;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .back-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.2);
+    }
+    .divider {
+      width: 60px;
+      height: 2px;
+      background-color: #800080;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header></header>
+  <main>
+    <div class="product-page">
+      <a href="/">
+        <img src="/el4e v4.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+      </a>
+      <h1>NYC Subway Hoodie</h1>
+      <p class="sold-out">Sold Out</p>
+      <hr class="divider" />
+      <div class="product-images-container">
+        <div class="product-img-wrap">
+          <img src="/mockups/subway hoodie front.png" alt="NYC Subway Hoodie Front" />
+          <span>Front</span>
+        </div>
+        <div class="product-img-wrap">
+          <img src="/mockups/subway hoodie back.png" alt="NYC Subway Hoodie Back" />
+          <span>Back</span>
+        </div>
+      </div>
+      <hr class="divider" />
+      <p class="product-description">
+        NYC Subway Hoodie
+      </p>
+      <a href="/shop/" class="back-link">← Back to Collection</a>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+</html>
