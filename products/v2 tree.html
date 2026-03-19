@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -52,6 +52,34 @@
       height: auto;
       border-radius: 8px;
     }
+
+    /* hover flip for front image */
+    .flip-wrap {
+      position: relative;
+      width: 280px;
+    }
+    .flip-wrap img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      transition: opacity 0.4s ease;
+    }
+    .flip-wrap .hover-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+    }
+    .flip-wrap:hover .default-img,
+    .flip-wrap.tapped .default-img {
+      opacity: 0;
+    }
+    .flip-wrap:hover .hover-img,
+    .flip-wrap.tapped .hover-img {
+      opacity: 1;
+    }
+
     .product-description {
       max-width: 600px;
       text-align: center;
@@ -118,14 +146,20 @@
       <p class="available">Available</p>
       <hr class="divider" />
       <div class="product-images-container">
+
         <div class="product-img-wrap">
-          <img src="/mockups/tre front.png" alt="V2 Tree Tee Front" />
+          <div class="flip-wrap" id="frontFlip">
+            <img class="default-img" src="/mockups/tre front.png" alt="V2 Tree Tee Front" />
+            <img class="hover-img" src="/mockups/tree zoom.jpg" alt="V2 Tree Tee Zoom" />
+          </div>
           <span>Front</span>
         </div>
+
         <div class="product-img-wrap">
           <img src="/mockups/tre back.png" alt="V2 Tree Tee Back" />
           <span>Back</span>
         </div>
+
       </div>
       <hr class="divider" />
       <p class="product-description">
@@ -138,5 +172,14 @@
     </div>
   </main>
   <footer></footer>
+
+  <script>
+    // handle tap for mobile
+    const frontFlip = document.getElementById('frontFlip');
+    frontFlip.addEventListener('click', function() {
+      this.classList.toggle('tapped');
+    });
+  </script>
+
 </body>
 </html>
