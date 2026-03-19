@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -51,154 +52,12 @@
       height: auto;
       border-radius: 8px;
     }
-    .product-description {
-      max-width: 600px;
-      text-align: center;
-      font-size: 1rem;
-      color: white;
-      line-height: 1.8;
-      opacity: 0.9;
-    }
-    .buy-now {
-      display: inline-block;
-      padding: 14px 40px;
-      background-color: #800080;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      font-family: 'Orbitron Black', sans-serif;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .buy-now:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.8);
-    }
-    .back-link {
-      display: inline-block;
-      padding: 12px 28px;
-      background-color: transparent;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.3);
-      font-size: 1rem;
-      font-family: 'Orbitron Black', sans-serif;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .back-link:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.2);
-    }
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-    .divider {
-      width: 60px;
-      height: 2px;
-      background-color: #800080;
-      border: none;
-    }
-  </style>
-</head>
-<body>
-  <header></header>
-  <main>
-    <div class="product-page">
-      <a href="/">
-        <img src="/el4e v4.png" class="hero-image" alt="Energy Lasts Forever Logo" />
-      </a>
-      <h1>Rain Drop</h1>
-      <p class="available">Available</p>
-      <hr class="divider" />
-      <div class="product-images-container">
-        <div class="product-img-wrap">
-          <img src="/mockups/drop back.png" alt="Rain Drop Tee Front" />
-          <span>Front</span>
-        </div>
-        <div class="product-img-wrap">
-          <img src="/mockups/drop front.png" alt="Rain Drop Tee Back" />
-          <span>Back</span>
-        </div>
-      </div>
-      <hr class="divider" />
-      <p class="product-description">
-        Charcoal Black X Light Blue Box Logo. Made with 100% Recycled Cotton
-      </p>
-      <div class="button-group">
-        <a href="https://energylastsforever.myshopify.com/products/rain-drop-box-logo-tee" target="_blank" class="buy-now">Buy Now</a>
-        <a href="/shop/" class="back-link">← Back to Collection</a>
-      </div>
-    </div>
-  </main>
-  <footer></footer>
-</body>
-</html>can u do the same thing with this page using drip zoom.jpgShow more3:44 PMhtml<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>V2 Rain Drop Tee – Energy Lasts Forever</title>
-  <link rel="stylesheet" href="/styles.css" />
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <style>
-    .product-page {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 60px 20px;
-      gap: 40px;
-    }
-    .product-page h1 {
-      font-size: 2rem;
-      text-align: center;
-      color: white;
-    }
-    .product-page .available {
-      font-size: 1rem;
-      color: #800080;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .product-images-container {
-      display: flex;
-      gap: 30px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .product-img-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .product-img-wrap span {
-      font-size: 0.85rem;
-      color: white;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      opacity: 0.7;
-    }
-    .product-img-wrap img {
-      width: 280px;
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    /* hover flip for front image */
     .flip-wrap {
       position: relative;
       width: 280px;
+      cursor: pointer;
     }
-    .flip-wrap img {
+    .flip-wrap .default-img {
       width: 100%;
       height: auto;
       border-radius: 8px;
@@ -209,17 +68,17 @@
       position: absolute;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
       opacity: 0;
+      transition: opacity 0.4s ease;
     }
-    .flip-wrap:hover .default-img,
-    .flip-wrap.tapped .default-img {
-      opacity: 0;
-    }
-    .flip-wrap:hover .hover-img,
-    .flip-wrap.tapped .hover-img {
-      opacity: 1;
-    }
-
+    .flip-wrap:hover .default-img { opacity: 0; }
+    .flip-wrap:hover .hover-img { opacity: 1; }
+    .flip-wrap.tapped .default-img { opacity: 0; }
+    .flip-wrap.tapped .hover-img { opacity: 1; }
     .product-description {
       max-width: 600px;
       text-align: center;
