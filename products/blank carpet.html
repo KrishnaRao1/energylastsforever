@@ -21,7 +21,7 @@
       text-align: center;
       color: white;
     }
-    .product-page .available {
+    .product-page .sold-out {
       font-size: 1rem;
       color: #800080;
       letter-spacing: 2px;
@@ -60,23 +60,6 @@
       line-height: 1.8;
       opacity: 0.9;
     }
-    .buy-now {
-      display: inline-block;
-      padding: 14px 40px;
-      background-color: #800080;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      font-family: 'Orbitron Black', sans-serif;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .buy-now:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.8);
-    }
     .back-link {
       display: inline-block;
       padding: 12px 28px;
@@ -93,12 +76,6 @@
       transform: scale(1.05);
       box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.2);
     }
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
     .divider {
       width: 60px;
       height: 2px;
@@ -114,8 +91,8 @@
       <a href="/">
         <img src="/el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
       </a>
-      <h1>White Shirt</h1>
-      <p class="available">Available</p>
+      <h1>Blank Carpet (Sample)</h1>
+      <p class="sold-out">Sold Out</p>
       <hr class="divider" />
       <div class="product-images-container">
         <div class="product-img-wrap">
@@ -129,12 +106,9 @@
       </div>
       <hr class="divider" />
       <p class="product-description">
-        White Shirt
+        1 of 1
       </p>
-      <div class="button-group">
-        <a href="#" target="_blank" class="buy-now">Buy Now</a>
-        <a href="/shop/" class="back-link">← Back to Collection</a>
-      </div>
+      <a href="/shop/" class="back-link">← Back to Collection</a>
     </div>
   </main>
   <footer></footer>
