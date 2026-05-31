@@ -6,35 +6,350 @@
   <title>AI Stat Collector - Energy Lasts Forever</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Stock ticker — minimal, scoped styles */
-    .stock-ticker {
-      overflow: hidden;
-      background: #0d1017;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 0.7rem 0;
+    .ds-page {
+      --bg: #080a0e;
+      --bg2: #0d1017;
+      --bg3: #12161f;
+      --border: rgba(255,255,255,0.07);
+      --green: #00e5a0;
+      --green-dim: rgba(0,229,160,0.12);
+      --green-glow: rgba(0,229,160,0.3);
+      --amber: #f5a623;
+      --blue: #3b7fff;
+      --text: #e8eaf0;
+      --muted: #5a6278;
+      --card-bg: #0f1420;
+      --mono: 'Space Mono', monospace;
+      --display: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
       position: relative;
-      margin: 1rem 0;
     }
-    .stock-ticker-track {
-      display: flex;
-      gap: 2.5rem;
-      width: max-content;
-      animation: stockScroll 50s linear infinite;
-      font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      padding-left: 2rem;
+    .ds-page * { box-sizing: border-box; }
+
+    .ds-page::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+      pointer-events: none; z-index: 100;
     }
-    @keyframes stockScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+
+    .ds-page .ds-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(8,10,14,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
-    .stock-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      white-space: nowrap;
-      color: #e8eaf0;
+    .ds-page .ds-brand {
+      font-family: var(--display); font-weight: 800; font-size: 0.85rem;
+      letter-spacing: 0.12em; color: var(--green); text-decoration: none; text-transform: uppercase;
     }
-    .stock-label   { font-weight: bold; letter-spacing:
+    .ds-page .ds-status {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em;
+    }
+    .ds-page .ds-dot {
+      width: 6px; height: 6px; background: var(--green); border-radius: 50%;
+      animation: dsPulse 2s infinite;
+    }
+    @keyframes dsPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+    }
+    .ds-page .ds-nav a {
+      font-family: var(--display); font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .ds-page .ds-nav a:hover { color: var(--green); }
+
+    .ds-page .hero {
+      min-height: 100vh; display: grid; place-items: center;
+      position: relative; padding-top: 60px; overflow: hidden;
+    }
+    .ds-page .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes gridShift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+    .ds-page .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
+    }
+    .ds-page .hero-content {
+      position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 2rem;
+    }
+    .ds-page .hero-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--green);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .ds-page .hero-image {
+      width: min(320px, 80vw); margin: 0 auto 2rem; display: block;
+      filter: drop-shadow(0 0 30px var(--green-glow));
+    }
+    .ds-page .hero-title {
+      font-family: var(--display); font-size: clamp(2.2rem, 6vw, 5rem); font-weight: 800;
+      line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem;
+    }
+    .ds-page .hero-title em { font-style: normal; color: var(--green); }
+    .ds-page .hero-sub {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.8;
+      max-width: 500px; margin: 0 auto 2.5rem;
+    }
+    .ds-page .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--green); color: #000; font-family: var(--mono);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.75rem 1.8rem; transition: all 0.2s;
+    }
+    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(0,229,160,0.4); }
+
+    .ds-page .ticker-wrap {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      overflow: hidden; background: var(--bg2); padding: 0.6rem 0;
+    }
+    .ds-page .ticker-track {
+      display: flex; gap: 3rem;
+      animation: tickerScroll 30s linear infinite; width: max-content;
+    }
+    @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ds-page .ticker-item {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .ds-page .ticker-item span { color: var(--green); }
+    .ds-page .ticker-sep { color: var(--border); font-size: 0.5rem; }
+
+    .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+    .ds-page .section-label {
+      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--green);
+      text-transform: uppercase; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--green); }
+    .ds-page .section-title {
+      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
+      margin-bottom: 0.5rem; line-height: 1.1;
+    }
+
+    .ds-page .project-section {
+      background: var(--card-bg); border: 1px solid var(--border);
+      padding: 3rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .ds-page .project-section:hover { background: #141824; }
+    .ds-page .project-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--green); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .ds-page .project-section:hover::before { transform: scaleX(1); }
+    .ds-page .project-num {
+      font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted); margin-bottom: 1rem;
+    }
+    .ds-page .project-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--green-glow); color: var(--green); background: var(--green-dim);
+      margin-bottom: 1.2rem;
+    }
+    .ds-page .project-section h2 {
+      font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700;
+      margin-bottom: 0.8rem; line-height: 1.15;
+    }
+    .ds-page .project-section p {
+      font-size: 0.78rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem;
+      max-width: 760px;
+    }
+    .ds-page .project-section iframe {
+      display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
+      border: 1px solid var(--border); margin: 1.5rem 0;
+    }
+    .ds-page .pitch-button {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green); color: #000; font-family: var(--mono);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.65rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 rgba(0,229,160,0.35); }
+    .ds-page .pitch-button.alt { background: var(--blue); }
+
+    .ds-page .pitch-deck {
+      background: var(--card-bg); border: 1px solid var(--border);
+      padding: 3rem; position: relative; overflow: hidden; margin-top: 1.5rem;
+    }
+    .ds-page .pitch-deck h2 {
+      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+      margin-bottom: 0.8rem;
+    }
+    .ds-page .pitch-deck h2 span { color: var(--green); }
+    .ds-page .pitch-deck p {
+      font-size: 0.78rem; color: var(--muted); line-height: 1.9;
+      max-width: 720px; margin-bottom: 1.5rem;
+    }
+    .ds-page .pitch-deck iframe {
+      display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
+      border: 1px solid var(--border); margin: 1.5rem 0;
+    }
+    .ds-page .pitch-deck h3 {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--green);
+      letter-spacing: 0.05em; margin-top: 1.5rem;
+    }
+
+    .ds-page footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .ds-page .footer-brand {
+      font-family: var(--display); font-size: 0.8rem; font-weight: 800;
+      color: var(--green); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .ds-page .footer-copy { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.4rem; }
+    .ds-page .social-icons { display: flex; gap: 1rem; }
+    .ds-page .social-icons img { width: 24px; height: 24px; opacity: 0.6; transition: opacity 0.2s; }
+    .ds-page .social-icons a:hover img { opacity: 1; }
+
+    @media (max-width: 640px) {
+      .ds-page .ds-header { padding: 0 1.2rem; }
+      .ds-page .section-wrap { padding: 4rem 1.2rem; }
+      .ds-page .project-section, .ds-page .pitch-deck { padding: 1.8rem; }
+    }
+  </style>
+</head>
+<body class="ds-page">
+
+  <header class="ds-header">
+    <a href="/" class="ds-brand">Energy Lasts Forever</a>
+    <div class="ds-status">
+      <div class="ds-dot"></div>
+      AI STAT COLLECTOR · LIVE
+    </div>
+    <nav class="ds-nav">
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main id="home">
+
+    <section class="hero">
+      <div class="grid-bg"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Krishna Rao · Sports Analytics Lab</div>
+        <a href="/">
+          <img src="el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+        </a>
+        <h1 class="hero-title">Data-Driven<br /><em>Sports Intelligence</em></h1>
+        <p class="hero-sub">
+          Building the next generation of sports analytics tools — from Bayesian salary models to AI-powered video stat collection.
+        </p>
+        <a href="#projects" class="hero-cta">View Projects →</a>
+      </div>
+    </section>
+
+    <div class="ticker-wrap">
+      <div class="ticker-track">
+        <div class="ticker-item">NBA Salary Model <span>→ Bayesian Inference</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">Offensive Possession Analytics <span>→ 2024 Dataset</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">2026 Draft Board <span>→ KNN Algorithm</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">CourtVision AI <span>→ Video Stat Collection</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">NBA Salary Model <span>→ Bayesian Inference</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">Offensive Possession Analytics <span>→ 2024 Dataset</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">2026 Draft Board <span>→ KNN Algorithm</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">CourtVision AI <span>→ Video Stat Collection</span></div>
+      </div>
+    </div>
+
+    <div id="projects" class="section-wrap">
+
+      <div class="section-label">Research Projects</div>
+      <h2 class="section-title">Analytics Portfolio</h2>
+
+      <div style="margin-top: 3rem;"></div>
+
+      <section class="project-section">
+        <div class="project-num">PROJECT / 01</div>
+        <div class="project-tag">Bayesian Inference</div>
+        <h2>2025–2026 NBA Salary Projections</h2>
+        <p>This project models NBA player salaries using Bayesian inference and performance metrics to predict fair contract values.</p>
+        <iframe
+          src="https://docs.google.com/presentation/d/1G818RwneS_q1AkVlakU7wsNanVrqxtNJ3XVLcZ6sO3k/embed?start=false&loop=true&delayms=3000"
+          width="960" height="569" allowfullscreen></iframe>
+        <a href="https://docs.google.com/presentation/d/1G818RwneS_q1AkVlakU7wsNanVrqxtNJ3XVLcZ6sO3k/edit?usp=sharing"
+          target="_blank" class="pitch-button">View Fullscreen ↗</a>
+      </section>
+
+      <section class="project-section">
+        <div class="project-num">PROJECT / 02</div>
+        <div class="project-tag">Possession Analytics</div>
+        <h2>2024 Offensive Possession Analytics</h2>
+        <p>This project analyzes offensive possessions to deliver actionable insights that enhance player evaluation and team strategy.</p>
+        <iframe
+          src="https://docs.google.com/presentation/d/1NsBFU1CF1OU1n4nDfOS4KKw41LwoItazK8gKdhd8zMU/embed?start=false&loop=true&delayms=3000"
+          width="960" height="569" allowfullscreen></iframe>
+        <a href="https://docs.google.com/presentation/d/1NsBFU1CF1OU1n4nDfOS4KKw41LwoItazK8gKdhd8zMU/edit?usp=sharing"
+          target="_blank" class="pitch-button">View Fullscreen ↗</a>
+      </section>
+
+      <section class="project-section">
+        <div class="project-num">PROJECT / 03</div>
+        <div class="project-tag" style="border-color: rgba(59,127,255,0.3); color: #3b7fff; background: rgba(59,127,255,0.08);">K-Nearest Neighbors</div>
+        <h2>2026 NBA Draft Prospect Rankings</h2>
+        <p>Interactive draft board powered by K-Nearest Neighbors clustering. Compares incoming prospects against historical player comps to project NBA fit, role, and upside.</p>
+        <a href="https://nba2026draftboardkrishnarao.lovable.app" target="_blank" class="pitch-button alt">Open Draft Board ↗</a>
+      </section>
+
+      <section class="pitch-deck">
+        <h2>Court<span>Vision</span> AI</h2>
+        <p>I am building a platform using AI, that allows users to collect and visualize game stats from their sports game film and video.</p>
+        <iframe
+          src="https://docs.google.com/presentation/d/e/2PACX-1vRcZNpsqIbDkY1kAli8bfXkGQ2Fhw9-AkDpgwBGtzUHrvUFDGUl_Mlze-njClhJW3L2kgW2MSGnH0nK/embed?start=false&loop=true&delayms=3000"
+          width="960" height="569" allowfullscreen></iframe>
+        <a href="https://docs.google.com/presentation/d/e/2PACX-1vRcZNpsqIbDkY1kAli8bfXkGQ2Fhw9-AkDpgwBGtzUHrvUFDGUl_Mlze-njClhJW3L2kgW2MSGnH0nK/embed?start=false&loop=true&delayms=3000"
+          target="_blank" class="pitch-button">View Fullscreen ↗</a>
+        <h3 style="margin-top: 20px;">Contact: krao30120@gmail.com</h3>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <div class="footer-brand">Energy Lasts Forever</div>
+      <div class="footer-copy">© 2026 Krishna Rao · All Rights Reserved</div>
+    </div>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
+        <img src="/icons/insta.png" alt="Instagram Icon" />
+      </a>
+    </div>
+  </footer>
+
+</body>
+</html>
