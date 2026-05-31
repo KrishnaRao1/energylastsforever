@@ -6,92 +6,550 @@
   <title>AI Stat Collector - Energy Lasts Forever</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Page-scoped overrides (won't affect other pages) ===== */
+    .ds-page {
+      --bg: #080a0e;
+      --bg2: #0d1017;
+      --bg3: #12161f;
+      --border: rgba(255,255,255,0.07);
+      --green: #00e5a0;
+      --green-dim: rgba(0,229,160,0.12);
+      --green-glow: rgba(0,229,160,0.3);
+      --amber: #f5a623;
+      --blue: #3b7fff;
+      --text: #e8eaf0;
+      --muted: #5a6278;
+      --card-bg: #0f1420;
+      --mono: 'Space Mono', monospace;
+      --display: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .ds-page * { box-sizing: border-box; }
+
+    /* Scanlines + noise overlays */
+    .ds-page::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+      pointer-events: none; z-index: 100;
+    }
+    .ds-page::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 99; opacity: 0.4;
+    }
+
+    /* Header */
+    .ds-page .ds-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 60px;
+      background: rgba(8,10,14,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .ds-page .ds-brand {
+      font-family: var(--display); font-weight: 800; font-size: 0.85rem;
+      letter-spacing: 0.12em; color: var(--green); text-decoration: none; text-transform: uppercase;
+    }
+    .ds-page .ds-status {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em;
+    }
+    .ds-page .ds-dot {
+      width: 6px; height: 6px; background: var(--green); border-radius: 50%;
+      animation: dsPulse 2s infinite;
+    }
+    @keyframes dsPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+    }
+    .ds-page .ds-nav a {
+      font-family: var(--display); font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .ds-page .ds-nav a:hover { color: var(--green); }
+
+    /* Hero */
+    .ds-page .hero {
+      min-height: 100vh; display: grid; place-items: center;
+      position: relative; padding-top: 60px; overflow: hidden;
+    }
+    .ds-page .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes gridShift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+    .ds-page .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
+    }
+    .ds-page .hero-content {
+      position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 2rem;
+      animation: fadeUp 1s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .ds-page .hero-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--green);
+      text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .ds-page .hero-image {
+      width: min(320px, 80vw); margin: 0 auto 2rem; display: block;
+      filter: drop-shadow(0 0 30px var(--green-glow));
+    }
+    .ds-page .hero-title {
+      font-family: var(--display); font-size: clamp(2.2rem, 6vw, 5rem); font-weight: 800;
+      line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem;
+    }
+    .ds-page .hero-title em { font-style: normal; color: var(--green); }
+    .ds-page .hero-sub {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.8;
+      max-width: 500px; margin: 0 auto 2.5rem;
+    }
+    .ds-page .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--green); color: #000; font-family: var(--mono);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.75rem 1.8rem; transition: all 0.2s;
+    }
+    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(0,229,160,0.4); }
+    .ds-page .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: var(--muted); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .ds-page .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--green), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* Ticker */
+    .ds-page .ticker-wrap {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      overflow: hidden; background: var(--bg2); padding: 0.6rem 0;
+    }
+    .ds-page .ticker-track {
+      display: flex; gap: 3rem;
+      animation: tickerScroll 30s linear infinite; width: max-content;
+    }
+    @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ds-page .ticker-item {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .ds-page .ticker-item span { color: var(--green); }
+    .ds-page .ticker-sep { color: var(--border); font-size: 0.5rem; }
+
+    /* Section wrapper */
+    .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+    .ds-page .section-label {
+      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--green);
+      text-transform: uppercase; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--green); }
+    .ds-page .section-title {
+      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
+      margin-bottom: 0.5rem; line-height: 1.1;
+    }
+
+    /* Project section card */
+    .ds-page .project-section {
+      background: var(--card-bg); border: 1px solid var(--border);
+      padding: 3rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .ds-page .project-section:hover { background: #141824; }
+    .ds-page .project-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--green); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .ds-page .project-section:hover::before { transform: scaleX(1); }
+    .ds-page .project-num {
+      font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted); margin-bottom: 1rem;
+    }
+    .ds-page .project-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--green-glow); color: var(--green); background: var(--green-dim);
+      margin-bottom: 1.2rem;
+    }
+    .ds-page .project-section h2 {
+      font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700;
+      margin-bottom: 0.8rem; line-height: 1.15;
+    }
+    .ds-page .project-section p {
+      font-size: 0.78rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem;
+      max-width: 760px;
+    }
+    .ds-page .project-section iframe {
+      display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
+      border: 1px solid var(--border); margin: 1.5rem 0;
+    }
+    .ds-page .pitch-button {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green); color: #000; font-family: var(--mono);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 0.65rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 rgba(0,229,160,0.35); }
+    .ds-page .pitch-button.alt { background: var(--blue); }
+    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 rgba(59,127,255,0.35); }
+
+    /* Stat bars decoration */
+    .ds-page .stat-bars {
+      display: flex; gap: 3px; height: 28px; align-items: flex-end; margin-bottom: 1.2rem; max-width: 240px;
+    }
+    .ds-page .stat-bar { flex: 1; background: var(--green); opacity: 0.18; border-radius: 1px; transition: opacity 0.3s; }
+    .ds-page .project-section:hover .stat-bar { opacity: 0.4; }
+    .ds-page .stat-bar:nth-child(1) { height: 40%; }
+    .ds-page .stat-bar:nth-child(2) { height: 65%; }
+    .ds-page .stat-bar:nth-child(3) { height: 50%; }
+    .ds-page .stat-bar:nth-child(4) { height: 90%; }
+    .ds-page .stat-bar:nth-child(5) { height: 70%; }
+    .ds-page .stat-bar:nth-child(6) { height: 55%; }
+    .ds-page .stat-bar:nth-child(7) { height: 80%; }
+    .ds-page .stat-bar:nth-child(8) { height: 45%; }
+
+    /* KNN viz block */
+    .ds-page .knn-block {
+      background: var(--bg3); border: 1px solid var(--border);
+      padding: 1.5rem; margin: 1.5rem 0; max-width: 960px;
+      display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    }
+    .ds-page .knn-block svg { width: 100%; max-width: 500px; }
+    .ds-page .knn-label {
+      font-size: 0.58rem; color: var(--muted);
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+
+    /* Pitch deck featured */
+    .ds-page .pitch-deck {
+      background: var(--card-bg); border: 1px solid var(--border);
+      padding: 3rem; position: relative; overflow: hidden; margin-top: 1.5rem;
+    }
+    .ds-page .pitch-deck::after {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .ds-page .pitch-deck h2 {
+      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+      margin-bottom: 0.8rem;
+    }
+    .ds-page .pitch-deck h2 span { color: var(--green); }
+    .ds-page .pitch-deck p {
+      font-size: 0.78rem; color: var(--muted); line-height: 1.9;
+      max-width: 720px; margin-bottom: 1.5rem;
+    }
+    .ds-page .pitch-deck iframe {
+      display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
+      border: 1px solid var(--border); margin: 1.5rem 0;
+    }
+    .ds-page .pitch-deck h3 {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--green);
+      letter-spacing: 0.05em; margin-top: 1.5rem;
+    }
+    .ds-page .featured-label {
+      font-size: 0.58rem; letter-spacing: 0.3em; color: var(--amber);
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .ds-page .featured-label::before { content: '★'; color: var(--amber); }
+
+    /* Footer */
+    .ds-page footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .ds-page .footer-brand {
+      font-family: var(--display); font-size: 0.8rem; font-weight: 800;
+      color: var(--green); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .ds-page .footer-copy { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.4rem; }
+    .ds-page .social-icons { display: flex; gap: 1rem; }
+    .ds-page .social-icons img { width: 24px; height: 24px; opacity: 0.6; transition: opacity 0.2s; }
+    .ds-page .social-icons a:hover img { opacity: 1; }
+
+    /* Reveal animation */
+    .ds-page .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .ds-page .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      .ds-page .ds-header { padding: 0 1.2rem; }
+      .ds-page .section-wrap { padding: 4rem 1.2rem; }
+      .ds-page .project-section, .ds-page .pitch-deck { padding: 1.8rem; }
+    }
+  </style>
 </head>
-<body>
-  <header></header>
+<body class="ds-page">
+
+  <!-- ===== HEADER ===== -->
+  <header class="ds-header">
+    <a href="/" class="ds-brand">Energy Lasts Forever</a>
+    <div class="ds-status">
+      <div class="ds-dot"></div>
+      AI STAT COLLECTOR · LIVE
+    </div>
+    <nav class="ds-nav">
+      <a href="about.html">About</a>
+    </nav>
+  </header>
 
   <main id="home">
+
+    <!-- ===== HERO ===== -->
     <section class="hero">
-      <!-- Logo -->
-      <a href="/">
-        <img src="el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
-      </a>
-      <!-- Navigation -->
-      <nav>
-        <ul class="stacked-links" style="list-style: none; padding: 0; margin: 0;">
-          <li><a href="about.html">EnergyLastsForever</a></li>
-        </ul>
-      </nav>
+      <div class="grid-bg"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Krishna Rao · Sports Analytics Lab</div>
+        <a href="/">
+          <img src="el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+        </a>
+        <h1 class="hero-title">Data-Driven<br /><em>Sports Intelligence</em></h1>
+        <p class="hero-sub">
+          Building the next generation of sports analytics tools — from Bayesian salary models to AI-powered video stat collection.
+        </p>
+        <a href="#projects" class="hero-cta">
+          View Projects
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
     </section>
 
-    <!-- PROJECT 1 -->
-    <section class="project-section">
-      <h2>2025–2026 NBA Salary Projections</h2>
-      <p>
-        <!-- Add a brief description here -->
-        This project models NBA player salaries using Bayesian inference and performance metrics to predict fair contract values.
-      </p>
-      <iframe 
-        src="https://docs.google.com/presentation/d/1G818RwneS_q1AkVlakU7wsNanVrqxtNJ3XVLcZ6sO3k/embed?start=false&loop=true&delayms=3000" 
-        width="960" 
-        height="569" 
-        allowfullscreen>
-      </iframe>
-      <a 
-        href="https://docs.google.com/presentation/d/1G818RwneS_q1AkVlakU7wsNanVrqxtNJ3XVLcZ6sO3k/edit?usp=sharing" 
-        target="_blank" 
-        class="pitch-button">
-        View Fullscreen
-      </a>
-    </section>
+    <!-- ===== TICKER ===== -->
+    <div class="ticker-wrap">
+      <div class="ticker-track">
+        <div class="ticker-item">NBA Salary Model <span>→ Bayesian Inference</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">Offensive Possession Analytics <span>→ 2024 Dataset</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">2026 Draft Board <span>→ KNN Algorithm</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">CourtVision AI <span>→ Video Stat Collection</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">NBA Salary Model <span>→ Bayesian Inference</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">Offensive Possession Analytics <span>→ 2024 Dataset</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">2026 Draft Board <span>→ KNN Algorithm</span></div>
+        <div class="ticker-item ticker-sep">///</div>
+        <div class="ticker-item">CourtVision AI <span>→ Video Stat Collection</span></div>
+      </div>
+    </div>
 
-    <!-- PROJECT 2 -->
-    <section class="project-section">
-      <h2>2024 Offensive Possession Analytics</h2>
-      <p>
-        <!-- Add a brief description here -->
-        This project analyzes offensive possessions to deliver actionable insights that enhance player evaluation and team strategy.
+    <div id="projects" class="section-wrap">
+
+      <div class="section-label reveal">Research Projects</div>
+      <h2 class="section-title reveal">Analytics Portfolio</h2>
+
+      <div style="margin-top: 3rem;"></div>
+
+      <!-- PROJECT 1 -->
+      <section class="project-section reveal">
+        <div class="project-num">PROJECT / 01</div>
+        <div class="stat-bars">
+          <div class="stat-bar"></div><div class="stat-bar"></div><div class="stat-bar"></div>
+          <div class="stat-bar"></div><div class="stat-bar"></div><div class="stat-bar"></div>
+          <div class="stat-bar"></div><div class="stat-bar"></div>
+        </div>
+        <div class="project-tag">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          Bayesian Inference
+        </div>
+        <h2>2025–2026 NBA Salary Projections</h2>
+        <p>
+          This project models NBA player salaries using Bayesian inference and performance metrics to predict fair contract values.
+        </p>
+        <iframe
+          src="https://docs.google.com/presentation/d/1G818RwneS_q1AkVlakU7wsNanVrqxtNJ3XVLcZ6sO3k/embed?start=false&loop=true&delayms=3000"
+          width="960"
+          height="569"
+          allowfullscreen>
+        </iframe>
         
-        
-      </p>
-      <iframe 
-        src="https://docs.google.com/presentation/d/1NsBFU1CF1OU1n4nDfOS4KKw41LwoItazK8gKdhd8zMU/embed?start=false&loop=true&delayms=3000" 
-        width="960" 
-        height="569" 
-        allowfullscreen>
-      </iframe>
-      <a 
-        href="https://docs.google.com/presentation/d/1NsBFU1CF1OU1n4nDfOS4KKw41LwoItazK8gKdhd8zMU/edit?usp=sharing" 
-        target="_blank" 
-        class="pitch-button">
-        View Fullscreen
-      </a>
-    </section>
+          href="https://docs.google.com/presentation/d/1G818RwneS_q1AkVlakU7wsNanVrqxtNJ3XVLcZ6sO3k/edit?usp=sharing"
+          target="_blank"
+          class="pitch-button">
+          View Fullscreen ↗
+        </a>
+      </section>
 
-    <!-- CourtVision AI Pitch Deck -->
-    <section class="pitch-deck">
-      <h2>CourtVision AI</h2>
-      <p>
-        I am building a platform using AI, that allows users to collect and visualize game stats from their sports game film and video.
-      </p>
-      <iframe 
-        src="https://docs.google.com/presentation/d/e/2PACX-1vRcZNpsqIbDkY1kAli8bfXkGQ2Fhw9-AkDpgwBGtzUHrvUFDGUl_Mlze-njClhJW3L2kgW2MSGnH0nK/embed?start=false&loop=true&delayms=3000" 
-        width="960" 
-        height="569" 
-        allowfullscreen>
-      </iframe>
-      <a 
-        href="https://docs.google.com/presentation/d/e/2PACX-1vRcZNpsqIbDkY1kAli8bfXkGQ2Fhw9-AkDpgwBGtzUHrvUFDGUl_Mlze-njClhJW3L2kgW2MSGnH0nK/embed?start=false&loop=true&delayms=3000" 
-        target="_blank" 
-        class="pitch-button">
-        View Fullscreen
-      </a>
-      <h3 style="margin-top: 20px;">Contact: krao30120@gmail.com</h3>
-    </section>
+      <!-- PROJECT 2 -->
+      <section class="project-section reveal">
+        <div class="project-num">PROJECT / 02</div>
+        <div class="stat-bars">
+          <div class="stat-bar"></div><div class="stat-bar"></div><div class="stat-bar"></div>
+          <div class="stat-bar"></div><div class="stat-bar"></div><div class="stat-bar"></div>
+          <div class="stat-bar"></div><div class="stat-bar"></div>
+        </div>
+        <div class="project-tag">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          Possession Analytics
+        </div>
+        <h2>2024 Offensive Possession Analytics</h2>
+        <p>
+          This project analyzes offensive possessions to deliver actionable insights that enhance player evaluation and team strategy.
+        </p>
+        <iframe
+          src="https://docs.google.com/presentation/d/1NsBFU1CF1OU1n4nDfOS4KKw41LwoItazK8gKdhd8zMU/embed?start=false&loop=true&delayms=3000"
+          width="960"
+          height="569"
+          allowfullscreen>
+        </iframe>
+        
+          href="https://docs.google.com/presentation/d/1NsBFU1CF1OU1n4nDfOS4KKw41LwoItazK8gKdhd8zMU/edit?usp=sharing"
+          target="_blank"
+          class="pitch-button">
+          View Fullscreen ↗
+        </a>
+      </section>
+
+      <!-- PROJECT 3 (NEW: 2026 Draft Board) -->
+      <section class="project-section reveal">
+        <div class="project-num">PROJECT / 03</div>
+        <div class="stat-bars">
+          <div class="stat-bar"></div><div class="stat-bar"></div><div class="stat-bar"></div>
+          <div class="stat-bar"></div><div class="stat-bar"></div><div class="stat-bar"></div>
+          <div class="stat-bar"></div><div class="stat-bar"></div>
+        </div>
+        <div class="project-tag" style="border-color: rgba(59,127,255,0.3); color: #3b7fff; background: rgba(59,127,255,0.08);">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          K-Nearest Neighbors
+        </div>
+        <h2>2026 NBA Draft Prospect Rankings</h2>
+        <p>
+          Interactive draft board powered by K-Nearest Neighbors clustering. Compares incoming prospects against historical player comps to project NBA fit, role, and upside. Built to surface hidden value in the 2026 class.
+        </p>
+
+        <!-- KNN visualization -->
+        <div class="knn-block">
+          <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid lines -->
+            <line x1="0" y1="180" x2="280" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="0" y1="135" x2="280" y2="135" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="0" y1="90" x2="280" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="0" y1="45" x2="280" y2="45" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+            <!-- KNN neighbor lines -->
+            <line x1="140" y1="90" x2="100" y2="60" stroke="rgba(0,229,160,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="140" y1="90" x2="170" y2="55" stroke="rgba(0,229,160,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="140" y1="90" x2="110" y2="120" stroke="rgba(0,229,160,0.4)" stroke-width="1" stroke-dasharray="3,3"/>
+
+            <!-- Guards cluster -->
+            <circle cx="70" cy="50" r="5" fill="rgba(59,127,255,0.7)"/>
+            <circle cx="90" cy="40" r="5" fill="rgba(59,127,255,0.7)"/>
+            <circle cx="55" cy="65" r="5" fill="rgba(59,127,255,0.7)"/>
+            <circle cx="80" cy="75" r="5" fill="rgba(59,127,255,0.7)"/>
+            <circle cx="100" cy="60" r="6" fill="rgba(0,229,160,0.9)" stroke="#00e5a0" stroke-width="1"/>
+
+            <!-- Forwards cluster -->
+            <circle cx="170" cy="45" r="5" fill="rgba(245,166,35,0.7)"/>
+            <circle cx="190" cy="30" r="5" fill="rgba(245,166,35,0.7)"/>
+            <circle cx="155" cy="70" r="5" fill="rgba(245,166,35,0.7)"/>
+            <circle cx="175" cy="80" r="5" fill="rgba(245,166,35,0.7)"/>
+            <circle cx="170" cy="55" r="6" fill="rgba(0,229,160,0.9)" stroke="#00e5a0" stroke-width="1"/>
+
+            <!-- Bigs cluster -->
+            <circle cx="200" cy="130" r="5" fill="rgba(200,100,255,0.7)"/>
+            <circle cx="220" cy="115" r="5" fill="rgba(200,100,255,0.7)"/>
+            <circle cx="240" cy="140" r="5" fill="rgba(200,100,255,0.7)"/>
+
+            <!-- Wings cluster -->
+            <circle cx="40" cy="140" r="5" fill="rgba(59,127,255,0.4)"/>
+            <circle cx="60" cy="155" r="5" fill="rgba(59,127,255,0.4)"/>
+            <circle cx="35" cy="115" r="5" fill="rgba(59,127,255,0.4)"/>
+            <circle cx="110" cy="120" r="6" fill="rgba(0,229,160,0.9)" stroke="#00e5a0" stroke-width="1"/>
+
+            <!-- Query point -->
+            <circle cx="140" cy="90" r="9" fill="none" stroke="#00e5a0" stroke-width="2">
+              <animate attributeName="r" values="9;14;9" dur="2s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="140" cy="90" r="6" fill="#00e5a0"/>
+
+            <!-- Labels -->
+            <text x="65" y="30" fill="rgba(59,127,255,0.7)" font-size="8" font-family="Space Mono, monospace">GUARDS</text>
+            <text x="155" y="22" fill="rgba(245,166,35,0.7)" font-size="8" font-family="Space Mono, monospace">FORWARDS</text>
+            <text x="195" y="105" fill="rgba(200,100,255,0.7)" font-size="8" font-family="Space Mono, monospace">BIGS</text>
+            <text x="115" y="85" fill="#00e5a0" font-size="7" font-family="Space Mono, monospace">NEW PROSPECT</text>
+          </svg>
+          <div class="knn-label">K-Nearest Neighbors Comp Model</div>
+        </div>
+
+        
+          href="https://nba2026draftboardkrishnarao.lovable.app"
+          target="_blank"
+          class="pitch-button alt">
+          Open Draft Board ↗
+        </a>
+      </section>
+
+      <!-- ===== CourtVision AI Pitch Deck ===== -->
+      <section class="pitch-deck reveal">
+        <div class="featured-label">Featured Build · In Development</div>
+        <h2>Court<span>Vision</span> AI</h2>
+        <p>
+          I am building a platform using AI, that allows users to collect and visualize game stats from their sports game film and video.
+        </p>
+        <iframe
+          src="https://docs.google.com/presentation/d/e/2PACX-1vRcZNpsqIbDkY1kAli8bfXkGQ2Fhw9-AkDpgwBGtzUHrvUFDGUl_Mlze-njClhJW3L2kgW2MSGnH0nK/embed?start=false&loop=true&delayms=3000"
+          width="960"
+          height="569"
+          allowfullscreen>
+        </iframe>
+        
+          href="https://docs.google.com/presentation/d/e/2PACX-1vRcZNpsqIbDkY1kAli8bfXkGQ2Fhw9-AkDpgwBGtzUHrvUFDGUl_Mlze-njClhJW3L2kgW2MSGnH0nK/embed?start=false&loop=true&delayms=3000"
+          target="_blank"
+          class="pitch-button">
+          View Fullscreen ↗
+        </a>
+        <h3 style="margin-top: 20px;">Contact: krao30120@gmail.com</h3>
+      </section>
+
+    </div>
   </main>
 
   <footer>
-    <canvas id="fuzzyCanvas" style="width: 100%; height: 100px;"></canvas>
+    <div>
+      <div class="footer-brand">Energy Lasts Forever</div>
+      <div class="footer-copy">© 2026 Krishna Rao · All Rights Reserved</div>
+    </div>
     <div class="social-icons">
       <a href="https://www.instagram.com/energylastsforever/" target="_blank" aria-label="Instagram">
         <img src="/icons/insta.png" alt="Instagram Icon" />
@@ -99,6 +557,24 @@
     </div>
   </footer>
 
-  
+  <script>
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+
+    // Stat bars randomize on hover
+    document.querySelectorAll('.project-section').forEach(card => {
+      const bars = card.querySelectorAll('.stat-bar');
+      card.addEventListener('mouseenter', () => {
+        bars.forEach(bar => {
+          const h = Math.floor(Math.random() * 80) + 20;
+          bar.style.height = h + '%';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
