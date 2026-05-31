@@ -6,214 +6,35 @@
   <title>AI Stat Collector - Energy Lasts Forever</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    .ds-page {
-      --bg: #080a0e;
-      --bg2: #0d1017;
-      --bg3: #12161f;
-      --border: rgba(255,255,255,0.07);
-      --green: #00e5a0;
-      --green-dim: rgba(0,229,160,0.12);
-      --green-glow: rgba(0,229,160,0.3);
-      --red: #ff4d6d;
-      --red-dim: rgba(255,77,109,0.12);
-      --amber: #f5a623;
-      --blue: #3b7fff;
-      --text: #e8eaf0;
-      --muted: #5a6278;
-      --card-bg: #0f1420;
-      --mono: 'Space Mono', monospace;
-      --display: 'Syne', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--mono);
-      min-height: 100vh;
-      overflow-x: hidden;
+    /* Stock ticker — minimal, scoped styles */
+    .stock-ticker {
+      overflow: hidden;
+      background: #0d1017;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0.7rem 0;
       position: relative;
+      margin: 1rem 0;
     }
-    .ds-page * { box-sizing: border-box; }
-
-    .ds-page::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
-      pointer-events: none; z-index: 100;
+    .stock-ticker-track {
+      display: flex;
+      gap: 2.5rem;
+      width: max-content;
+      animation: stockScroll 50s linear infinite;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      padding-left: 2rem;
     }
-    .ds-page::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 99; opacity: 0.4;
+    @keyframes stockScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
-
-    /* Hero */
-    .ds-page .hero {
-      min-height: 100vh; display: grid; place-items: center;
-      position: relative; overflow: hidden;
+    .stock-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      color: #e8eaf0;
     }
-    .ds-page .grid-bg {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridShift 20s linear infinite;
-      opacity: 0.5;
-    }
-    @keyframes gridShift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
-    .ds-page .hero-glow {
-      position: absolute; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
-    }
-    .ds-page .hero-content {
-      position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 2rem;
-      animation: fadeUp 1s ease both;
-    }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .ds-page .hero-eyebrow {
-      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--green);
-      text-transform: uppercase; margin-bottom: 1.5rem;
-    }
-    .ds-page .hero-image {
-      width: min(320px, 80vw); margin: 0 auto 2rem; display: block;
-      filter: drop-shadow(0 0 30px var(--green-glow));
-    }
-    .ds-page .hero-title {
-      font-family: var(--display); font-size: clamp(2.2rem, 6vw, 5rem); font-weight: 800;
-      line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem;
-    }
-    .ds-page .hero-title em { font-style: normal; color: var(--green); }
-    .ds-page .hero-sub {
-      font-size: 0.8rem; color: var(--muted); line-height: 1.8;
-      max-width: 500px; margin: 0 auto 2.5rem;
-    }
-    .ds-page .hero-cta {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--green); color: #000; font-family: var(--mono);
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 0.75rem 1.8rem; transition: all 0.2s;
-    }
-    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(0,229,160,0.4); }
-    .ds-page .scroll-hint {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-      color: var(--muted); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-    }
-    .ds-page .scroll-line {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, var(--green), transparent);
-      animation: scrollPulse 2s infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.2); }
-    }
-
-    /* Stock Ticker */
-    .ds-page .ticker-wrap {
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      overflow: hidden; background: var(--bg2); padding: 0.8rem 0;
-      position: relative;
-    }
-    .ds-page .ticker-wrap::before {
-      content: 'LIVE';
-      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-      font-size: 0.55rem; letter-spacing: 0.25em; color: var(--green);
-      background: var(--bg2); padding: 0.3rem 0.6rem; border: 1px solid var(--green-glow);
-      z-index: 2; display: flex; align-items: center; gap: 0.4rem;
-    }
-    .ds-page .ticker-wrap::after {
-      content: ''; position: absolute; left: 2.5rem; top: 50%; transform: translateY(-50%);
-      width: 6px; height: 6px; background: var(--green); border-radius: 50%;
-      animation: dsPulse 2s infinite; z-index: 3;
-    }
-    @keyframes dsPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
-      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
-    }
-    .ds-page .ticker-track {
-      display: flex; gap: 2.5rem;
-      animation: tickerScroll 60s linear infinite; width: max-content;
-      padding-left: 6rem;
-    }
-    @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .ds-page .ticker-item {
-      font-size: 0.7rem; letter-spacing: 0.1em;
-      color: var(--text); white-space: nowrap;
-      display: flex; align-items: center; gap: 0.6rem;
-    }
-    .ds-page .ticker-symbol { font-weight: 700; color: var(--text); letter-spacing: 0.15em; }
-    .ds-page .ticker-price { color: var(--muted); }
-    .ds-page .ticker-change.up { color: var(--green); }
-    .ds-page .ticker-change.down { color: var(--red); }
-    .ds-page .ticker-arrow { font-size: 0.6rem; }
-    .ds-page .ticker-sep { color: var(--border); font-size: 0.5rem; }
-    .ds-page .ticker-loading {
-      font-size: 0.65rem; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase;
-      padding-left: 6rem;
-    }
-
-    .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
-    .ds-page .section-label {
-      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--green);
-      text-transform: uppercase; margin-bottom: 0.75rem;
-      display: flex; align-items: center; gap: 0.75rem;
-    }
-    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--green); }
-    .ds-page .section-title {
-      font-family: var(--display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
-      margin-bottom: 0.5rem; line-height: 1.1;
-    }
-
-    .ds-page .project-section {
-      background: var(--card-bg); border: 1px solid var(--border);
-      padding: 3rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
-      transition: background 0.3s;
-    }
-    .ds-page .project-section:hover { background: #141824; }
-    .ds-page .project-section::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--green); transform: scaleX(0); transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .ds-page .project-section:hover::before { transform: scaleX(1); }
-    .ds-page .project-num {
-      font-size: 0.6rem; letter-spacing: 0.3em; color: var(--muted); margin-bottom: 1rem;
-    }
-    .ds-page .project-tag {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
-      padding: 0.25rem 0.65rem;
-      border: 1px solid var(--green-glow); color: var(--green); background: var(--green-dim);
-      margin-bottom: 1.2rem;
-    }
-    .ds-page .project-section h2 {
-      font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700;
-      margin-bottom: 0.8rem; line-height: 1.15;
-    }
-    .ds-page .project-section p {
-      font-size: 0.78rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem;
-      max-width: 760px;
-    }
-    .ds-page .project-section iframe {
-      display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
-      border: 1px solid var(--border); margin: 1.5rem 0;
-    }
-    .ds-page .pitch-button {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--green); color: #000; font-family: var(--mono);
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 0.65rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 rgba(0,229,160,0.35); }
-    .ds-page .pitch-button.alt { background: var(--blue); }
-    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 rgba(59,127,255,0.35); }
-
-    .ds-page .stat-bars {
-      display: flex; gap: 3px; height: 28px; align-items: flex-end; margin-bo
+    .stock-label   { font-weight: bold; letter-spacing:
