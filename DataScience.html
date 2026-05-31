@@ -18,6 +18,7 @@
       --green: #00e5a0;
       --green-dim: rgba(0,229,160,0.12);
       --green-glow: rgba(0,229,160,0.3);
+      --red: #ff4d6d;
       --amber: #f5a623;
       --blue: #3b7fff;
       --text: #e8eaf0;
@@ -41,39 +42,9 @@
       pointer-events: none; z-index: 100;
     }
 
-    .ds-page .ds-header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2.5rem; height: 60px;
-      background: rgba(8,10,14,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .ds-page .ds-brand {
-      font-family: var(--display); font-weight: 800; font-size: 0.85rem;
-      letter-spacing: 0.12em; color: var(--green); text-decoration: none; text-transform: uppercase;
-    }
-    .ds-page .ds-status {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em;
-    }
-    .ds-page .ds-dot {
-      width: 6px; height: 6px; background: var(--green); border-radius: 50%;
-      animation: dsPulse 2s infinite;
-    }
-    @keyframes dsPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
-      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
-    }
-    .ds-page .ds-nav a {
-      font-family: var(--display); font-size: 0.75rem; color: var(--muted);
-      text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
-    }
-    .ds-page .ds-nav a:hover { color: var(--green); }
-
     .ds-page .hero {
       min-height: 100vh; display: grid; place-items: center;
-      position: relative; padding-top: 60px; overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .ds-page .grid-bg {
       position: absolute; inset: 0;
@@ -121,19 +92,33 @@
 
     .ds-page .ticker-wrap {
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      overflow: hidden; background: var(--bg2); padding: 0.6rem 0;
+      overflow: hidden; background: var(--bg2); padding: 0.8rem 0;
+      position: relative;
+    }
+    @keyframes dsPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
     }
     .ds-page .ticker-track {
-      display: flex; gap: 3rem;
-      animation: tickerScroll 30s linear infinite; width: max-content;
+      display: flex; gap: 2.5rem;
+      animation: tickerScroll 50s linear infinite; width: max-content;
+      padding-left: 2rem;
     }
     @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .ds-page .ticker-item {
-      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.72rem; letter-spacing: 0.1em;
+      color: var(--text); white-space: nowrap;
+      display: flex; align-items: center; gap: 0.6rem;
     }
-    .ds-page .ticker-item span { color: var(--green); }
+    .ds-page .ticker-symbol { font-weight: 700; color: var(--text); letter-spacing: 0.15em; }
+    .ds-page .ticker-price { color: var(--muted); }
+    .ds-page .ticker-change.up { color: var(--green); }
+    .ds-page .ticker-change.down { color: var(--red); }
     .ds-page .ticker-sep { color: var(--border); font-size: 0.5rem; }
+    .ds-page .ticker-loading {
+      font-size: 0.7rem; color: var(--muted); letter-spacing: 0.2em;
+      text-transform: uppercase; padding-left: 2rem;
+    }
 
     .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
     .ds-page .section-label {
@@ -229,24 +214,12 @@
     .ds-page .social-icons a:hover img { opacity: 1; }
 
     @media (max-width: 640px) {
-      .ds-page .ds-header { padding: 0 1.2rem; }
       .ds-page .section-wrap { padding: 4rem 1.2rem; }
       .ds-page .project-section, .ds-page .pitch-deck { padding: 1.8rem; }
     }
   </style>
 </head>
 <body class="ds-page">
-
-  <header class="ds-header">
-    <a href="/" class="ds-brand">Energy Lasts Forever</a>
-    <div class="ds-status">
-      <div class="ds-dot"></div>
-      AI STAT COLLECTOR · LIVE
-    </div>
-    <nav class="ds-nav">
-      <a href="about.html">About</a>
-    </nav>
-  </header>
 
   <main id="home">
 
@@ -267,23 +240,7 @@
     </section>
 
     <div class="ticker-wrap">
-      <div class="ticker-track">
-        <div class="ticker-item">NBA Salary Model <span>→ Bayesian Inference</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">Offensive Possession Analytics <span>→ 2024 Dataset</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">2026 Draft Board <span>→ KNN Algorithm</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">CourtVision AI <span>→ Video Stat Collection</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">NBA Salary Model <span>→ Bayesian Inference</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">Offensive Possession Analytics <span>→ 2024 Dataset</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">2026 Draft Board <span>→ KNN Algorithm</span></div>
-        <div class="ticker-item ticker-sep">///</div>
-        <div class="ticker-item">CourtVision AI <span>→ Video Stat Collection</span></div>
-      </div>
+      <div id="tickerContent" class="ticker-loading">Loading market data...</div>
     </div>
 
     <div id="projects" class="section-wrap">
@@ -351,5 +308,68 @@
     </div>
   </footer>
 
+  <script>
+    const STOCKS = [
+      { symbol: '^GSPC', label: 'S&P 500' },
+      { symbol: 'AAPL',  label: 'AAPL' },
+      { symbol: '^IXIC', label: 'NASDAQ' },
+      { symbol: 'NVDA',  label: 'NVDA' }
+    ];
+
+    async function fetchStock(stock) {
+      try {
+        const yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(stock.symbol) + '?interval=1d';
+        const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(yahooUrl);
+        const res = await fetch(proxyUrl);
+        const data = await res.json();
+        const parsed = JSON.parse(data.contents);
+        const meta = parsed.chart.result[0].meta;
+        const price = meta.regularMarketPrice;
+        const prev = meta.chartPreviousClose || meta.previousClose;
+        const change = price - prev;
+        const pct = (change / prev) * 100;
+        return { label: stock.label, price: price, change: change, pct: pct };
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function renderTicker(stocks) {
+      const container = document.getElementById('tickerContent');
+      container.className = 'ticker-track';
+
+      function buildItem(s) {
+        const up = s.change >= 0;
+        const arrow = up ? '▲' : '▼';
+        const cls = up ? 'up' : 'down';
+        const sign = up ? '+' : '';
+        const priceStr = s.price >= 1000
+          ? s.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : s.price.toFixed(2);
+        return '<div class="ticker-item">' +
+          '<span class="ticker-symbol">' + s.label + '</span>' +
+          '<span class="ticker-price">$' + priceStr + '</span>' +
+          '<span class="ticker-change ' + cls + '">' + arrow + ' ' + sign + s.change.toFixed(2) + ' (' + sign + s.pct.toFixed(2) + '%)</span>' +
+          '</div>' +
+          '<div class="ticker-item ticker-sep">///</div>';
+      }
+
+      const oneSet = stocks.map(buildItem).join('');
+      container.innerHTML = oneSet + oneSet;
+    }
+
+    async function loadTicker() {
+      const results = await Promise.all(STOCKS.map(fetchStock));
+      const valid = results.filter(function(r) { return r !== null; });
+      if (valid.length === 0) {
+        document.getElementById('tickerContent').textContent = 'Market data temporarily unavailable';
+        return;
+      }
+      renderTicker(valid);
+    }
+
+    loadTicker();
+    setInterval(loadTicker, 5 * 60 * 1000);
+  </script>
 </body>
 </html>
