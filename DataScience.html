@@ -90,14 +90,27 @@
     }
     .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(0,229,160,0.4); }
 
+    /* Scroll indicator above ticker */
+    .ds-page .scroll-hint {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      padding: 1.5rem 0 0.5rem;
+      color: var(--muted); font-size: 0.6rem; letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    .ds-page .scroll-line {
+      width: 1px; height: 32px;
+      background: linear-gradient(to bottom, var(--green), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
     .ds-page .ticker-wrap {
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       overflow: hidden; background: var(--bg2); padding: 0.8rem 0;
       position: relative;
-    }
-    @keyframes dsPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
-      50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
     }
     .ds-page .ticker-track {
       display: flex; gap: 2.5rem;
@@ -239,6 +252,12 @@
       </div>
     </section>
 
+    <!-- Scroll indicator -->
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+
     <div class="ticker-wrap">
       <div id="tickerContent" class="ticker-loading">Loading market data...</div>
     </div>
@@ -274,12 +293,16 @@
           target="_blank" class="pitch-button">View Fullscreen ↗</a>
       </section>
 
+      <!-- NEWEST PROJECT: 2026 NBA Draft Board (live embed) -->
       <section class="project-section">
-        <div class="project-num">PROJECT / 03</div>
+        <div class="project-num">PROJECT / 03 — NEWEST</div>
         <div class="project-tag" style="border-color: rgba(59,127,255,0.3); color: #3b7fff; background: rgba(59,127,255,0.08);">K-Nearest Neighbors</div>
         <h2>2026 NBA Draft Prospect Rankings</h2>
-        <p>Interactive draft board powered by K-Nearest Neighbors clustering. Compares incoming prospects against historical player comps to project NBA fit, role, and upside.</p>
-        <a href="https://nba2026draftboardkrishnarao.lovable.app" target="_blank" class="pitch-button alt">Open Draft Board ↗</a>
+        <p>Interactive draft board powered by K-Nearest Neighbors clustering. Compares incoming prospects against historical player comps to project NBA fit, role, and upside. Explore it live below ↓</p>
+        <iframe
+          src="https://nba2026draftboardkrishnarao.lovable.app/"
+          width="960" height="569" allowfullscreen></iframe>
+        <a href="https://nba2026draftboardkrishnarao.lovable.app/" target="_blank" class="pitch-button alt">Open Full Site ↗</a>
       </section>
 
       <section class="pitch-deck">
