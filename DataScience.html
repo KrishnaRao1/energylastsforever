@@ -90,7 +90,6 @@
     }
     .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(0,229,160,0.4); }
 
-    /* Scroll indicator above ticker */
     .ds-page .scroll-hint {
       display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
       padding: 1.5rem 0 0.5rem;
@@ -179,6 +178,30 @@
       display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
       border: 1px solid var(--border); margin: 1.5rem 0;
     }
+
+    /* Clickable image preview */
+    .ds-page .project-preview {
+      display: block; max-width: 960px; margin: 1.5rem 0;
+      border: 1px solid var(--border); overflow: hidden;
+      position: relative; transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .ds-page .project-preview img {
+      display: block; width: 100%; height: auto;
+      transition: transform 0.5s ease, filter 0.3s ease;
+    }
+    .ds-page .project-preview:hover { box-shadow: 0 12px 40px rgba(59,127,255,0.18); transform: translateY(-3px); }
+    .ds-page .project-preview:hover img { transform: scale(1.02); filter: brightness(1.08); }
+    .ds-page .project-preview::after {
+      content: 'CLICK TO OPEN ↗';
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(8,10,14,0.85); color: var(--green);
+      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em;
+      padding: 0.4rem 0.7rem; border: 1px solid var(--green-glow);
+      opacity: 0; transition: opacity 0.3s;
+      backdrop-filter: blur(8px);
+    }
+    .ds-page .project-preview:hover::after { opacity: 1; }
+
     .ds-page .pitch-button {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: var(--green); color: #000; font-family: var(--mono);
@@ -187,7 +210,8 @@
       padding: 0.65rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
     }
     .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 rgba(0,229,160,0.35); }
-    .ds-page .pitch-button.alt { background: var(--blue); }
+    .ds-page .pitch-button.alt { background: var(--blue); color: #fff; }
+    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 rgba(59,127,255,0.35); }
 
     .ds-page .pitch-deck {
       background: var(--card-bg); border: 1px solid var(--border);
@@ -252,7 +276,6 @@
       </div>
     </section>
 
-    <!-- Scroll indicator -->
     <div class="scroll-hint">
       <span>Scroll</span>
       <div class="scroll-line"></div>
@@ -269,8 +292,21 @@
 
       <div style="margin-top: 3rem;"></div>
 
+      <!-- PROJECT 01: 2026 NBA DRAFT BOARD (newest, featured at top) -->
       <section class="project-section">
-        <div class="project-num">PROJECT / 01</div>
+        <div class="project-num">PROJECT / 01 — NEWEST</div>
+        <div class="project-tag" style="border-color: rgba(59,127,255,0.3); color: #3b7fff; background: rgba(59,127,255,0.08);">K-Nearest Neighbors</div>
+        <h2>2026 NBA Draft Prospect Rankings</h2>
+        <p>Interactive draft board powered by K-Nearest Neighbors clustering. Compares incoming prospects against historical player comps to project NBA fit, role, and upside. Click the preview or the button below to explore the full live site.</p>
+        <a href="https://nba2026draftboardkrishnarao.lovable.app/" target="_blank" class="project-preview">
+          <img src="draft-board-preview.jpg" alt="2026 NBA Draft Board preview" />
+        </a>
+        <a href="https://nba2026draftboardkrishnarao.lovable.app/" target="_blank" class="pitch-button alt">See Project ↗</a>
+      </section>
+
+      <!-- PROJECT 02 -->
+      <section class="project-section">
+        <div class="project-num">PROJECT / 02</div>
         <div class="project-tag">Bayesian Inference</div>
         <h2>2025–2026 NBA Salary Projections</h2>
         <p>This project models NBA player salaries using Bayesian inference and performance metrics to predict fair contract values.</p>
@@ -281,8 +317,9 @@
           target="_blank" class="pitch-button">View Fullscreen ↗</a>
       </section>
 
+      <!-- PROJECT 03 -->
       <section class="project-section">
-        <div class="project-num">PROJECT / 02</div>
+        <div class="project-num">PROJECT / 03</div>
         <div class="project-tag">Possession Analytics</div>
         <h2>2024 Offensive Possession Analytics</h2>
         <p>This project analyzes offensive possessions to deliver actionable insights that enhance player evaluation and team strategy.</p>
@@ -293,18 +330,7 @@
           target="_blank" class="pitch-button">View Fullscreen ↗</a>
       </section>
 
-      <!-- NEWEST PROJECT: 2026 NBA Draft Board (live embed) -->
-      <section class="project-section">
-        <div class="project-num">PROJECT / 03 — NEWEST</div>
-        <div class="project-tag" style="border-color: rgba(59,127,255,0.3); color: #3b7fff; background: rgba(59,127,255,0.08);">K-Nearest Neighbors</div>
-        <h2>2026 NBA Draft Prospect Rankings</h2>
-        <p>Interactive draft board powered by K-Nearest Neighbors clustering. Compares incoming prospects against historical player comps to project NBA fit, role, and upside. Explore it live below ↓</p>
-        <iframe
-          src="https://nba2026draftboardkrishnarao.lovable.app/"
-          width="960" height="569" allowfullscreen></iframe>
-        <a href="https://nba2026draftboardkrishnarao.lovable.app/" target="_blank" class="pitch-button alt">Open Full Site ↗</a>
-      </section>
-
+      <!-- CourtVision -->
       <section class="pitch-deck">
         <h2>Court<span>Vision</span> AI</h2>
         <p>I am building a platform using AI, that allows users to collect and visualize game stats from their sports game film and video.</p>
