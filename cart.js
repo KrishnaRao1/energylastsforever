@@ -224,6 +224,15 @@ function buildCartWidget() {
   });
 }
 
+function openCartWidget() {
+  const dropdown = document.getElementById("cart-dropdown");
+  const btn = document.getElementById("cart-icon-btn");
+  if (dropdown && btn) {
+    dropdown.classList.add("open");
+    btn.setAttribute("aria-expanded", "true");
+  }
+}
+
 function renderCartWidget() {
   if (!document.getElementById("cart-widget-root")) return;
 
