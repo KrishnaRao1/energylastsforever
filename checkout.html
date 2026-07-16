@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout – Energy Lasts Forever</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <script src="/products.js"></script>
+  <script src="/cart.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    .checkout-page { max-width: 500px; margin: 0 auto; padding: 60px 20px; color: white; }
+    #payment-element { margin: 25px 0; }
+    #pay-btn { width: 100%; padding: 16px; background-color: #800080; color: white; border: none;
+               border-radius: 8px; font-size: 1.1rem; font-family: 'Orbitron Black', sans-serif; cursor: pointer; }
+    #pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    #error-message { color: #ff6b6b; margin-top: 10px; font-size: 0.9rem; }
+    .order-summary { border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <header></header>
+  <main>
+    <div class="checkout-page">
+      <h1 style="text-align:center;">Checkout</h1>
+      <div class="order-summary" id="orderSummary"></div>
+      <form id="payment-form">
+        <div id="payment-element"></div>
+        <button id="pay-btn">Pay Now</button>
+        <div id="error-message"></div>
+      </form>
+    </div>
+  </main>
+  <footer></footer>
+
+  <script>
+    const WORKER_URL = "https://your-worker.workers.dev/create-payment-intent"; // ← update after deploying Worker
+    const stripe = Stripe("pk_live_YOUR_PUBLISHABLE_KEY"); // ← your Stripe publishable key
+
+    let elements;
+
+    async function initialize() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        document.querySelector(".checkout-page").innerHTML = "<p style='text-align:center;'>Your cart is empty. <a href='/'>Continue shopping</a></p>";
+        return;
+      }
+
+      // Render order summary
+      document.getElementById("orderSummary").innerHTML = cart.map(item => {
+        const p = PRODUCTS[item.id];
+        return `<div>${p.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — $${(p.price * item.qty / 100).toFixed(2)}</div>`;
+      }).join("") + `<div style="margin-top:10px; font-weight:bold;">Total: $${(getCartTotal() / 100).toFixed(2)}</div>`;
+
+      // Create PaymentIntent via your Worker — send cart, NOT a raw dollar amount
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart }),
+      });
+      const { clientSecret, error } = await res.json();
+
+      if (error) {
+        document.getElementById("error-message").textContent = error;
+        return;
+      }
+
+      const appearance = {
+        theme: "night",
+        variables: {
+          colorPrimary: "#800080",
+          colorBackground: "#1a1a1a",
+          colorText: "#ffffff",
+          fontFamily: "Orbitron Black, sans-serif",
+          borderRadius: "8px",
+        },
+      };
+
+      elements = stripe.elements({ clientSecret, appearance });
+      const paymentElement = elements.create("payment");
+      paymentElement.mount("#payment-element");
+    }
+
+    document.getElementById("payment-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      document.getElementById("pay-btn").disabled = true;
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: { return_url: window.location.origin + "/success.html" },
+      });
+
+      if (error) {
+        document.getElementById("error-message").textContent = error.message;
+        document.getElementById("pay-btn").disabled = false;
+      }
+    });
+
+    initialize();
+  </script>
+</body>
+</html>
