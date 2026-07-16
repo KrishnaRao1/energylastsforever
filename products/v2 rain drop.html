@@ -189,7 +189,6 @@
           <option value="XL">Size XL</option>
         </select>
         <button class="buy-now" onclick="handleAddToCart()">Add to Cart</button>
-        <a href="/cart.html" class="back-link">View Cart (<span id="cart-count">0</span>)</a>
         <a href="/shop/" class="back-link">← Back to Collection</a>
       </div>
     </div>
@@ -205,7 +204,7 @@
     function handleAddToCart() {
       const size = document.getElementById('sizeSelect').value;
       addToCart('rain-drop', size);
-      alert('Added to cart!');
+      openCartWidget();
     }
   </script>
 
