@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart – Energy Lasts Forever</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <script src="/products.js"></script>
+  <script src="/cart.js"></script>
+  <style>
+    .cart-page { max-width: 600px; margin: 0 auto; padding: 60px 20px; color: white; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center;
+                 padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .cart-item-info { display: flex; flex-direction: column; gap: 4px; }
+    .cart-item-info small { opacity: 0.6; }
+    .qty-controls button { background: transparent; border: 1px solid rgba(255,255,255,0.3);
+                            color: white; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; }
+    .cart-total { text-align: right; font-size: 1.3rem; margin: 30px 0; }
+    .checkout-btn { display: block; width: 100%; text-align: center; padding: 16px;
+                     background-color: #800080; color: white; border: none; border-radius: 8px;
+                     font-size: 1.1rem; font-family: 'Orbitron Black', sans-serif; cursor: pointer; }
+    .empty-msg { text-align: center; opacity: 0.7; padding: 40px 0; }
+  </style>
+</head>
+<body>
+  <header></header>
+  <main>
+    <div class="cart-page">
+      <h1 style="text-align:center;">Your Cart</h1>
+      <div id="cartItems"></div>
+      <div class="cart-total" id="cartTotal"></div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="location.href='/checkout.html'">Proceed to Checkout</button>
+    </div>
+  </main>
+  <footer></footer>
+
+  <script>
+    function renderCart() {
+      const cart = getCart();
+      const container = document.getElementById("cartItems");
+      const totalEl = document.getElementById("cartTotal");
+      const checkoutBtn = document.getElementById("checkoutBtn");
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-msg">Your cart is empty.</p>';
+        totalEl.textContent = "";
+        checkoutBtn.style.display = "none";
+        return;
+      }
+
+      checkoutBtn.style.display = "block";
+      container.innerHTML = cart.map((item, i) => {
+        const product = PRODUCTS[item.id];
+        if (!product) return "";
+        const lineTotal = (product.price * item.qty / 100).toFixed(2);
+        return `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <strong>${product.name}</strong>
+              <small>${item.size ? "Size: " + item.size : ""}</small>
+              <small>$${(product.price / 100).toFixed(2)} each</small>
+            </div>
+            <div class="qty-controls" style="display:flex; align-items:center; gap:10px;">
+              <button onclick="changeQty(${i}, ${item.qty - 1})">−</button>
+              <span>${item.qty}</span>
+              <button onclick="changeQty(${i}, ${item.qty + 1})">+</button>
+              <strong style="margin-left:15px;">$${lineTotal}</strong>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      totalEl.textContent = "Total: $" + (getCartTotal() / 100).toFixed(2);
+    }
+
+    function changeQty(index, qty) {
+      updateQty(index, qty);
+      renderCart();
+      updateCartBadge();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
