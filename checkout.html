@@ -33,26 +33,21 @@
     </div>
   </main>
   <footer></footer>
-
   <script>
-    const WORKER_URL = "https://your-worker.workers.dev/create-payment-intent"; // ← update after deploying Worker
-    const stripe = Stripe("pk_live_YOUR_PUBLISHABLE_KEY"); // ← your Stripe publishable key
-
+    const WORKER_URL = "https://el4eshipping.krao30120.workers.dev";
+    const stripe = Stripe("pk_test_51T4B1V7SiKgMpSm2BrhXFJM9wZiwtrF4VO68sXyj1fvUm1FYE7ZO1aohz824OPY4kBnE2XYS0ENAua7LzVb3DjJM00WsMOXkg5");
     let elements;
-
     async function initialize() {
       const cart = getCart();
       if (cart.length === 0) {
         document.querySelector(".checkout-page").innerHTML = "<p style='text-align:center;'>Your cart is empty. <a href='/'>Continue shopping</a></p>";
         return;
       }
-
       // Render order summary
       document.getElementById("orderSummary").innerHTML = cart.map(item => {
         const p = PRODUCTS[item.id];
         return `<div>${p.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — $${(p.price * item.qty / 100).toFixed(2)}</div>`;
       }).join("") + `<div style="margin-top:10px; font-weight:bold;">Total: $${(getCartTotal() / 100).toFixed(2)}</div>`;
-
       // Create PaymentIntent via your Worker — send cart, NOT a raw dollar amount
       const res = await fetch(WORKER_URL, {
         method: "POST",
@@ -60,12 +55,10 @@
         body: JSON.stringify({ cart }),
       });
       const { clientSecret, error } = await res.json();
-
       if (error) {
         document.getElementById("error-message").textContent = error;
         return;
       }
-
       const appearance = {
         theme: "night",
         variables: {
@@ -76,27 +69,22 @@
           borderRadius: "8px",
         },
       };
-
       elements = stripe.elements({ clientSecret, appearance });
       const paymentElement = elements.create("payment");
       paymentElement.mount("#payment-element");
     }
-
     document.getElementById("payment-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       document.getElementById("pay-btn").disabled = true;
-
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: { return_url: window.location.origin + "/success.html" },
       });
-
       if (error) {
         document.getElementById("error-message").textContent = error.message;
         document.getElementById("pay-btn").disabled = false;
       }
     });
-
     initialize();
   </script>
 </body>
