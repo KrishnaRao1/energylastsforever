@@ -11,12 +11,13 @@
   <script src="https://js.stripe.com/v3/"></script>
   <style>
     .checkout-page { max-width: 500px; margin: 0 auto; padding: 60px 20px; color: white; }
-    #payment-element { margin: 25px 0; }
+    #link-authentication-element, #address-element, #payment-element { margin: 20px 0; }
     #pay-btn { width: 100%; padding: 16px; background-color: #800080; color: white; border: none;
-               border-radius: 8px; font-size: 1.1rem; font-family: 'Orbitron Black', sans-serif; cursor: pointer; }
+               border-radius: 8px; font-size: 1.1rem; font-family: 'Orbitron Black', sans-serif; cursor: pointer; margin-top: 10px; }
     #pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     #error-message { color: #ff6b6b; margin-top: 10px; font-size: 0.9rem; }
     .order-summary { border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; margin-bottom: 15px; }
+    .section-label { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin: 20px 0 8px; }
   </style>
 </head>
 <body>
@@ -26,7 +27,15 @@
       <h1 style="text-align:center;">Checkout</h1>
       <div class="order-summary" id="orderSummary"></div>
       <form id="payment-form">
+        <div class="section-label">Contact</div>
+        <div id="link-authentication-element"></div>
+
+        <div class="section-label">Shipping Address</div>
+        <div id="address-element"></div>
+
+        <div class="section-label">Payment</div>
         <div id="payment-element"></div>
+
         <button id="pay-btn">Pay Now</button>
         <div id="error-message"></div>
       </form>
@@ -37,18 +46,20 @@
     const WORKER_URL = "https://el4eshipping.krao30120.workers.dev";
     const stripe = Stripe("pk_test_51T4B1V7SiKgMpSm2BrhXFJM9wZiwtrF4VO68sXyj1fvUm1FYE7ZO1aohz824OPY4kBnE2XYS0ENAua7LzVb3DjJM00WsMOXkg5");
     let elements;
+    let customerEmail = "";
+
     async function initialize() {
       const cart = getCart();
       if (cart.length === 0) {
         document.querySelector(".checkout-page").innerHTML = "<p style='text-align:center;'>Your cart is empty. <a href='/'>Continue shopping</a></p>";
         return;
       }
-      // Render order summary
+
       document.getElementById("orderSummary").innerHTML = cart.map(item => {
         const p = PRODUCTS[item.id];
         return `<div>${p.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — $${(p.price * item.qty / 100).toFixed(2)}</div>`;
       }).join("") + `<div style="margin-top:10px; font-weight:bold;">Total: $${(getCartTotal() / 100).toFixed(2)}</div>`;
-      // Create PaymentIntent via your Worker — send cart, NOT a raw dollar amount
+
       const res = await fetch(WORKER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -59,6 +70,7 @@
         document.getElementById("error-message").textContent = error;
         return;
       }
+
       const appearance = {
         theme: "night",
         variables: {
@@ -69,22 +81,54 @@
           borderRadius: "8px",
         },
       };
+
       elements = stripe.elements({ clientSecret, appearance });
+
+      const linkAuthenticationElement = elements.create("linkAuthentication");
+      linkAuthenticationElement.mount("#link-authentication-element");
+      linkAuthenticationElement.on("change", (event) => {
+        customerEmail = event.value.email;
+      });
+
+      const addressElement = elements.create("address", { mode: "shipping" });
+      addressElement.mount("#address-element");
+
       const paymentElement = elements.create("payment");
       paymentElement.mount("#payment-element");
     }
+
     document.getElementById("payment-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       document.getElementById("pay-btn").disabled = true;
+      document.getElementById("error-message").textContent = "";
+
+      const addressElement = elements.getElement("address");
+      const { value: addressValue, complete: addressComplete } = await addressElement.getValue();
+
+      if (!addressComplete) {
+        document.getElementById("error-message").textContent = "Please complete your shipping address.";
+        document.getElementById("pay-btn").disabled = false;
+        return;
+      }
+
       const { error } = await stripe.confirmPayment({
         elements,
-        confirmParams: { return_url: window.location.origin + "/success.html" },
+        confirmParams: {
+          return_url: window.location.origin + "/success.html",
+          receipt_email: customerEmail,
+          shipping: {
+            name: addressValue.name,
+            address: addressValue.address,
+          },
+        },
       });
+
       if (error) {
         document.getElementById("error-message").textContent = error.message;
         document.getElementById("pay-btn").disabled = false;
       }
     });
+
     initialize();
   </script>
 </body>
