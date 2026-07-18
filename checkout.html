@@ -16,8 +16,26 @@
                border-radius: 8px; font-size: 1.1rem; font-family: 'Orbitron Black', sans-serif; cursor: pointer; margin-top: 10px; }
     #pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     #error-message { color: #ff6b6b; margin-top: 10px; font-size: 0.9rem; }
+    #promo-message { margin-top: 8px; font-size: 0.85rem; }
+    #promo-message.success { color: #4ade80; }
+    #promo-message.error { color: #ff6b6b; }
     .order-summary { border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; margin-bottom: 15px; }
+    .summary-line { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 3px 0; }
+    .summary-line.total { font-weight: bold; font-size: 1.05rem; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 8px; }
+    .summary-line.discount { color: #4ade80; }
     .section-label { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin: 20px 0 8px; }
+    .promo-row { display: flex; gap: 8px; }
+    .promo-row input {
+      flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);
+      background: transparent; color: white; font-size: 0.9rem;
+    }
+    .promo-row button {
+      padding: 10px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);
+      background: transparent; color: white; cursor: pointer; font-family: 'Orbitron Black', sans-serif;
+      font-size: 0.85rem; white-space: nowrap;
+    }
+    .promo-row button:hover { border-color: #800080; }
+    .promo-row button:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -25,7 +43,16 @@
   <main>
     <div class="checkout-page">
       <h1 style="text-align:center;">Checkout</h1>
+
       <div class="order-summary" id="orderSummary"></div>
+
+      <div class="section-label">Promo Code</div>
+      <div class="promo-row">
+        <input type="text" id="promoInput" placeholder="Enter code" />
+        <button id="promoBtn" onclick="applyPromo()">Apply</button>
+      </div>
+      <div id="promo-message"></div>
+
       <form id="payment-form">
         <div class="section-label">Contact</div>
         <div id="link-authentication-element"></div>
@@ -45,31 +72,57 @@
   <script>
     const WORKER_URL = "https://el4eshipping.krao30120.workers.dev";
     const stripe = Stripe("pk_test_51T4B1V7SiKgMpSm2BrhXFJM9wZiwtrF4VO68sXyj1fvUm1FYE7ZO1aohz824OPY4kBnE2XYS0ENAua7LzVb3DjJM00WsMOXkg5");
+
     let elements;
     let customerEmail = "";
+    let currentPaymentIntentId = null;
+    let currentCart = [];
+    let appliedPromoCode = "";
+
+    function money(cents) {
+      return "$" + (cents / 100).toFixed(2);
+    }
+
+    function renderSummary(breakdown) {
+      const cart = currentCart;
+      const itemLines = cart.map(item => {
+        const p = PRODUCTS[item.id];
+        return `<div class="summary-line"><span>${p.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty}</span><span>${money(p.price * item.qty)}</span></div>`;
+      }).join("");
+
+      let html = itemLines;
+      html += `<div class="summary-line"><span>Subtotal</span><span>${money(breakdown.subtotal)}</span></div>`;
+      if (breakdown.discount > 0) {
+        html += `<div class="summary-line discount"><span>Discount</span><span>-${money(breakdown.discount)}</span></div>`;
+      }
+      html += `<div class="summary-line"><span>Shipping</span><span>${breakdown.shipping === 0 ? "FREE" : money(breakdown.shipping)}</span></div>`;
+      html += `<div class="summary-line"><span>Tax</span><span>${money(breakdown.tax)}</span></div>`;
+      html += `<div class="summary-line total"><span>Total</span><span>${money(breakdown.total)}</span></div>`;
+
+      document.getElementById("orderSummary").innerHTML = html;
+    }
 
     async function initialize() {
-      const cart = getCart();
-      if (cart.length === 0) {
+      currentCart = getCart();
+      if (currentCart.length === 0) {
         document.querySelector(".checkout-page").innerHTML = "<p style='text-align:center;'>Your cart is empty. <a href='/'>Continue shopping</a></p>";
         return;
       }
 
-      document.getElementById("orderSummary").innerHTML = cart.map(item => {
-        const p = PRODUCTS[item.id];
-        return `<div>${p.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty} — $${(p.price * item.qty / 100).toFixed(2)}</div>`;
-      }).join("") + `<div style="margin-top:10px; font-weight:bold;">Total: $${(getCartTotal() / 100).toFixed(2)}</div>`;
-
       const res = await fetch(WORKER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart }),
+        body: JSON.stringify({ cart: currentCart }),
       });
-      const { clientSecret, error } = await res.json();
-      if (error) {
-        document.getElementById("error-message").textContent = error;
+      const data = await res.json();
+
+      if (data.error) {
+        document.getElementById("error-message").textContent = data.error;
         return;
       }
+
+      currentPaymentIntentId = data.paymentIntentId;
+      renderSummary(data.breakdown);
 
       const appearance = {
         theme: "night",
@@ -82,7 +135,7 @@
         },
       };
 
-      elements = stripe.elements({ clientSecret, appearance });
+      elements = stripe.elements({ clientSecret: data.clientSecret, appearance });
 
       const linkAuthenticationElement = elements.create("linkAuthentication");
       linkAuthenticationElement.mount("#link-authentication-element");
@@ -90,11 +143,59 @@
         customerEmail = event.value.email;
       });
 
-      const addressElement = elements.create("address", { mode: "shipping" });
+      const addressElement = elements.create("address", {
+        mode: "shipping",
+        fields: { phone: "never" }
+      });
       addressElement.mount("#address-element");
 
       const paymentElement = elements.create("payment");
       paymentElement.mount("#payment-element");
+    }
+
+    async function applyPromo() {
+      const promoBtn = document.getElementById("promoBtn");
+      const promoMessage = document.getElementById("promo-message");
+      const code = document.getElementById("promoInput").value.trim();
+
+      if (!code) return;
+
+      promoBtn.disabled = true;
+      promoMessage.textContent = "Checking code...";
+      promoMessage.className = "";
+
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cart: currentCart,
+          promoCode: code,
+          paymentIntentId: currentPaymentIntentId,
+        }),
+      });
+      const data = await res.json();
+      promoBtn.disabled = false;
+
+      if (data.error) {
+        promoMessage.textContent = data.error;
+        promoMessage.className = "error";
+        return;
+      }
+
+      if (!data.breakdown.promoApplied) {
+        promoMessage.textContent = "Invalid promo code.";
+        promoMessage.className = "error";
+        renderSummary(data.breakdown);
+        return;
+      }
+
+      appliedPromoCode = code;
+      promoMessage.textContent = "Promo code applied!";
+      promoMessage.className = "success";
+      renderSummary(data.breakdown);
+
+      // Sync Elements with the updated PaymentIntent amount
+      await elements.fetchUpdates();
     }
 
     document.getElementById("payment-form").addEventListener("submit", async (e) => {
