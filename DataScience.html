@@ -31,7 +31,7 @@
     .ds-page * { box-sizing: border-box; }
 
     .ds-page .hero {
-      min-height: 100vh; display: grid; place-items: center;
+      min-height: 60vh; display: grid; place-items: center;
       position: relative; overflow: hidden;
     }
     .ds-page .grid-bg {
@@ -57,7 +57,7 @@
       text-transform: uppercase; margin-bottom: 1.5rem;
     }
     .ds-page .hero-image {
-      width: min(320px, 80vw); margin: 0 auto 2rem; display: block;
+      width: min(120px, 40vw); margin: 0 auto 1.5rem; display: block;
       filter: drop-shadow(0 0 30px var(--accent-glow));
     }
     .ds-page .hero-cta {
@@ -70,23 +70,7 @@
     }
     .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent-glow); }
 
-    .ds-page .scroll-hint {
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      padding: 1.5rem 0 0.5rem;
-      color: var(--muted); font-size: 0.6rem; letter-spacing: 0.3em;
-      text-transform: uppercase;
-    }
-    .ds-page .scroll-line {
-      width: 1px; height: 32px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
-      animation: scrollPulse 2s infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.2); }
-    }
-
-    .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+    .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 6rem; }
     .ds-page .section-label {
       font-size: 0.6rem; letter-spacing: 0.35em; color: var(--accent);
       text-transform: uppercase; margin-bottom: 0.75rem;
@@ -208,7 +192,7 @@
     .ds-page .social-icons a:hover img { opacity: 1; }
 
     @media (max-width: 640px) {
-      .ds-page .section-wrap { padding: 4rem 1.2rem; }
+      .ds-page .section-wrap { padding: 1.5rem 1.2rem 4rem; }
       .ds-page .project-section, .ds-page .pitch-deck { padding: 1.8rem; }
     }
   </style>
@@ -229,17 +213,12 @@
       </div>
     </section>
 
-    <div class="scroll-hint">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-
     <div id="projects" class="section-wrap">
 
       <div class="section-label">Research Projects</div>
       <h2 class="section-title">Analytics Portfolio</h2>
 
-      <div style="margin-top: 3rem;"></div>
+      <div style="margin-top: 2rem;"></div>
 
       <!-- PROJECT 00: 2026-27 FAIR SALARY PREDICTOR (newest, featured at top) -->
       <section class="project-section">
