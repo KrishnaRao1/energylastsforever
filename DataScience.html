@@ -3,44 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Stat Collector - Energy Lasts Forever</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <title>Data Science Projects</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <style>
     .ds-page {
-      --bg: #080a0e;
-      --bg2: #0d1017;
-      --bg3: #12161f;
-      --border: rgba(255,255,255,0.07);
-      --green: #00e5a0;
-      --green-dim: rgba(0,229,160,0.12);
-      --green-glow: rgba(0,229,160,0.3);
+      --bg: #000000;
+      --bg2: #0d0d0d;
+      --bg3: #131313;
+      --border: rgba(255,255,255,0.1);
+      --purple: #800080;
+      --purple-dim: rgba(128,0,128,0.12);
+      --purple-glow: rgba(128,0,128,0.5);
       --red: #ff4d6d;
       --amber: #f5a623;
-      --blue: #3b7fff;
-      --text: #e8eaf0;
-      --muted: #5a6278;
-      --card-bg: #0f1420;
-      --mono: 'Space Mono', monospace;
-      --display: 'Syne', sans-serif;
+      --text: #ffffff;
+      --muted: #9a9a9a;
+      --card-bg: #0f0f0f;
+      --display: 'Orbitron Black', sans-serif;
       background: var(--bg);
       color: var(--text);
-      font-family: var(--mono);
+      font-family: 'Orbitron Black', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
     .ds-page * { box-sizing: border-box; }
-
-    .ds-page::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
-      pointer-events: none; z-index: 100;
-    }
 
     .ds-page .hero {
       min-height: 100vh; display: grid; place-items: center;
@@ -53,42 +41,43 @@
         linear-gradient(90deg, var(--border) 1px, transparent 1px);
       background-size: 60px 60px;
       animation: gridShift 20s linear infinite;
-      opacity: 0.5;
+      opacity: 0.3;
     }
     @keyframes gridShift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
     .ds-page .hero-glow {
       position: absolute; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(128,0,128,0.15) 0%, transparent 70%);
       top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
     }
     .ds-page .hero-content {
       position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 2rem;
     }
     .ds-page .hero-eyebrow {
-      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--green);
+      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--purple);
       text-transform: uppercase; margin-bottom: 1.5rem;
     }
     .ds-page .hero-image {
       width: min(320px, 80vw); margin: 0 auto 2rem; display: block;
-      filter: drop-shadow(0 0 30px var(--green-glow));
+      filter: drop-shadow(0 0 30px var(--purple-glow));
     }
     .ds-page .hero-title {
       font-family: var(--display); font-size: clamp(2.2rem, 6vw, 5rem); font-weight: 800;
       line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem;
     }
-    .ds-page .hero-title em { font-style: normal; color: var(--green); }
+    .ds-page .hero-title em { font-style: normal; color: var(--purple); }
     .ds-page .hero-sub {
       font-size: 0.8rem; color: var(--muted); line-height: 1.8;
       max-width: 500px; margin: 0 auto 2.5rem;
+      font-family: sans-serif;
     }
     .ds-page .hero-cta {
       display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--green); color: #000; font-family: var(--mono);
+      background: var(--purple); color: #fff; font-family: var(--display);
       font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; text-decoration: none;
       padding: 0.75rem 1.8rem; transition: all 0.2s;
     }
-    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 rgba(0,229,160,0.4); }
+    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--purple-glow); }
 
     .ds-page .scroll-hint {
       display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
@@ -98,7 +87,7 @@
     }
     .ds-page .scroll-line {
       width: 1px; height: 32px;
-      background: linear-gradient(to bottom, var(--green), transparent);
+      background: linear-gradient(to bottom, var(--purple), transparent);
       animation: scrollPulse 2s infinite;
     }
     @keyframes scrollPulse {
@@ -121,24 +110,26 @@
       font-size: 0.72rem; letter-spacing: 0.1em;
       color: var(--text); white-space: nowrap;
       display: flex; align-items: center; gap: 0.6rem;
+      font-family: sans-serif;
     }
-    .ds-page .ticker-symbol { font-weight: 700; color: var(--text); letter-spacing: 0.15em; }
+    .ds-page .ticker-symbol { font-weight: 700; color: var(--text); letter-spacing: 0.15em; font-family: var(--display); }
     .ds-page .ticker-price { color: var(--muted); }
-    .ds-page .ticker-change.up { color: var(--green); }
+    .ds-page .ticker-change.up { color: var(--purple); }
     .ds-page .ticker-change.down { color: var(--red); }
     .ds-page .ticker-sep { color: var(--border); font-size: 0.5rem; }
     .ds-page .ticker-loading {
       font-size: 0.7rem; color: var(--muted); letter-spacing: 0.2em;
       text-transform: uppercase; padding-left: 2rem;
+      font-family: sans-serif;
     }
 
     .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
     .ds-page .section-label {
-      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--green);
+      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--purple);
       text-transform: uppercase; margin-bottom: 0.75rem;
       display: flex; align-items: center; gap: 0.75rem;
     }
-    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--green); }
+    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--purple); }
     .ds-page .section-title {
       font-family: var(--display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
       margin-bottom: 0.5rem; line-height: 1.1;
@@ -149,10 +140,10 @@
       padding: 3rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
       transition: background 0.3s;
     }
-    .ds-page .project-section:hover { background: #141824; }
+    .ds-page .project-section:hover { background: #1a1a1a; }
     .ds-page .project-section::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--green); transform: scaleX(0); transform-origin: left;
+      background: var(--purple); transform: scaleX(0); transform-origin: left;
       transition: transform 0.4s ease;
     }
     .ds-page .project-section:hover::before { transform: scaleX(1); }
@@ -163,16 +154,18 @@
       display: inline-flex; align-items: center; gap: 0.4rem;
       font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
       padding: 0.25rem 0.65rem;
-      border: 1px solid var(--green-glow); color: var(--green); background: var(--green-dim);
+      border: 1px solid var(--purple-glow); color: var(--purple); background: var(--purple-dim);
       margin-bottom: 1.2rem;
+      font-family: var(--display);
     }
     .ds-page .project-section h2 {
       font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700;
       margin-bottom: 0.8rem; line-height: 1.15;
     }
     .ds-page .project-section p {
-      font-size: 0.78rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem;
+      font-size: 0.85rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem;
       max-width: 760px;
+      font-family: sans-serif;
     }
     .ds-page .project-section iframe {
       display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
@@ -189,14 +182,14 @@
       display: block; width: 100%; height: auto;
       transition: transform 0.5s ease, filter 0.3s ease;
     }
-    .ds-page .project-preview:hover { box-shadow: 0 12px 40px rgba(59,127,255,0.18); transform: translateY(-3px); }
+    .ds-page .project-preview:hover { box-shadow: 0 12px 40px var(--purple-glow); transform: translateY(-3px); }
     .ds-page .project-preview:hover img { transform: scale(1.02); filter: brightness(1.08); }
     .ds-page .project-preview::after {
       content: 'CLICK TO OPEN ↗';
       position: absolute; top: 1rem; right: 1rem;
-      background: rgba(8,10,14,0.85); color: var(--green);
-      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em;
-      padding: 0.4rem 0.7rem; border: 1px solid var(--green-glow);
+      background: rgba(0,0,0,0.85); color: var(--purple);
+      font-family: var(--display); font-size: 0.6rem; letter-spacing: 0.2em;
+      padding: 0.4rem 0.7rem; border: 1px solid var(--purple-glow);
       opacity: 0; transition: opacity 0.3s;
       backdrop-filter: blur(8px);
     }
@@ -204,14 +197,14 @@
 
     .ds-page .pitch-button {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--green); color: #000; font-family: var(--mono);
+      background: var(--purple); color: #fff; font-family: var(--display);
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; text-decoration: none;
       padding: 0.65rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
     }
-    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 rgba(0,229,160,0.35); }
-    .ds-page .pitch-button.alt { background: var(--blue); color: #fff; }
-    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 rgba(59,127,255,0.35); }
+    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--purple-glow); }
+    .ds-page .pitch-button.alt { background: #1a1a1a; color: var(--purple); border: 1px solid var(--purple); }
+    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 var(--purple-glow); }
 
     .ds-page .pitch-deck {
       background: var(--card-bg); border: 1px solid var(--border);
@@ -221,17 +214,18 @@
       font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
       margin-bottom: 0.8rem;
     }
-    .ds-page .pitch-deck h2 span { color: var(--green); }
+    .ds-page .pitch-deck h2 span { color: var(--purple); }
     .ds-page .pitch-deck p {
-      font-size: 0.78rem; color: var(--muted); line-height: 1.9;
+      font-size: 0.85rem; color: var(--muted); line-height: 1.9;
       max-width: 720px; margin-bottom: 1.5rem;
+      font-family: sans-serif;
     }
     .ds-page .pitch-deck iframe {
       display: block; width: 100%; max-width: 960px; aspect-ratio: 16/9; height: auto;
       border: 1px solid var(--border); margin: 1.5rem 0;
     }
     .ds-page .pitch-deck h3 {
-      font-family: var(--mono); font-size: 0.75rem; color: var(--green);
+      font-family: var(--display); font-size: 0.75rem; color: var(--purple);
       letter-spacing: 0.05em; margin-top: 1.5rem;
     }
 
@@ -243,9 +237,9 @@
     }
     .ds-page .footer-brand {
       font-family: var(--display); font-size: 0.8rem; font-weight: 800;
-      color: var(--green); letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--purple); letter-spacing: 0.1em; text-transform: uppercase;
     }
-    .ds-page .footer-copy { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.4rem; }
+    .ds-page .footer-copy { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.4rem; font-family: sans-serif; }
     .ds-page .social-icons { display: flex; gap: 1rem; }
     .ds-page .social-icons img { width: 24px; height: 24px; opacity: 0.6; transition: opacity 0.2s; }
     .ds-page .social-icons a:hover img { opacity: 1; }
@@ -266,7 +260,7 @@
       <div class="hero-content">
         <div class="hero-eyebrow">Krishna Rao · Sports Analytics Lab</div>
         <a href="/">
-          <img src="el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
+          <img src="/el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
         </a>
         <h1 class="hero-title">Data-Driven<br /><em>Sports Intelligence</em></h1>
         <p class="hero-sub">
@@ -292,13 +286,21 @@
 
       <div style="margin-top: 3rem;"></div>
 
-      <!-- PROJECT 01: 2026 NBA DRAFT BOARD (newest, featured at top) -->
+      <!-- PROJECT 00: 2026-27 FAIR SALARY PREDICTOR (newest, featured at top) -->
       <section class="project-section">
-        <div class="project-tag" style="border-color: rgba(59,127,255,0.3); color: #3b7fff; background: rgba(59,127,255,0.08);">Linear Score Model</div>
+        <div class="project-tag">Bayesian Salary Model</div>
+        <h2>2026-27 Fair Salary Predictor</h2>
+        <p>Interactive tool projecting fair-value NBA contracts for the 2026-27 season using Bayesian modeling on per-game, advanced, and contract data. Compare projected values against actual signings in real time.</p>
+        <a href="https://salaryprojections26.lovable.app/" target="_blank" class="pitch-button alt">See Project ↗</a>
+      </section>
+
+      <!-- PROJECT 01: 2026 NBA DRAFT BOARD -->
+      <section class="project-section">
+        <div class="project-tag">Linear Score Model</div>
         <h2>2026 NBA Draft Prospect Rankings</h2>
         <p>Interactive draft board powered by a custom linear evaluation index. Blends prospect production, efficiency, context, and youth into a single standardized composite score to rank the 2026 class. Click the preview or the button below to explore the full live site.</p>
         <a href="https://nba2026draftboardkrishnarao.lovable.app/" target="_blank" class="project-preview">
-          <img src="pictures/2026%20draft%20pv.jpg" alt="2026 NBA Draft Board preview" />
+          <img src="/pictures/2026%20draft%20pv.jpg" alt="2026 NBA Draft Board preview" />
         </a>
         <a href="https://nba2026draftboardkrishnarao.lovable.app/" target="_blank" class="pitch-button alt">See Project ↗</a>
       </section>
