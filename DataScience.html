@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Science Projects</title>
+  <title>AI Stat Collector - Energy Lasts Forever</title>
   <link rel="stylesheet" href="/styles.css" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <style>
@@ -12,9 +12,9 @@
       --bg2: #0d0d0d;
       --bg3: #131313;
       --border: rgba(255,255,255,0.1);
-      --purple: #800080;
-      --purple-dim: rgba(128,0,128,0.12);
-      --purple-glow: rgba(128,0,128,0.5);
+      --accent: #00e5a0;
+      --accent-dim: rgba(0,229,160,0.12);
+      --accent-glow: rgba(0,229,160,0.5);
       --red: #ff4d6d;
       --amber: #f5a623;
       --text: #ffffff;
@@ -46,38 +46,29 @@
     @keyframes gridShift { from { background-position: 0 0; } to { background-position: 60px 60px; } }
     .ds-page .hero-glow {
       position: absolute; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(128,0,128,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0,229,160,0.15) 0%, transparent 70%);
       top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
     }
     .ds-page .hero-content {
       position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 2rem;
     }
     .ds-page .hero-eyebrow {
-      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--purple);
+      font-size: 0.65rem; letter-spacing: 0.3em; color: var(--accent);
       text-transform: uppercase; margin-bottom: 1.5rem;
     }
     .ds-page .hero-image {
       width: min(320px, 80vw); margin: 0 auto 2rem; display: block;
-      filter: drop-shadow(0 0 30px var(--purple-glow));
-    }
-    .ds-page .hero-title {
-      font-family: var(--display); font-size: clamp(2.2rem, 6vw, 5rem); font-weight: 800;
-      line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem;
-    }
-    .ds-page .hero-title em { font-style: normal; color: var(--purple); }
-    .ds-page .hero-sub {
-      font-size: 0.8rem; color: var(--muted); line-height: 1.8;
-      max-width: 500px; margin: 0 auto 2.5rem;
-      font-family: sans-serif;
+      filter: drop-shadow(0 0 30px var(--accent-glow));
     }
     .ds-page .hero-cta {
       display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--purple); color: #fff; font-family: var(--display);
+      background: var(--accent); color: #000; font-family: var(--display);
       font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; text-decoration: none;
       padding: 0.75rem 1.8rem; transition: all 0.2s;
+      margin-top: 1rem;
     }
-    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--purple-glow); }
+    .ds-page .hero-cta:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent-glow); }
 
     .ds-page .scroll-hint {
       display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
@@ -87,7 +78,7 @@
     }
     .ds-page .scroll-line {
       width: 1px; height: 32px;
-      background: linear-gradient(to bottom, var(--purple), transparent);
+      background: linear-gradient(to bottom, var(--accent), transparent);
       animation: scrollPulse 2s infinite;
     }
     @keyframes scrollPulse {
@@ -114,7 +105,7 @@
     }
     .ds-page .ticker-symbol { font-weight: 700; color: var(--text); letter-spacing: 0.15em; font-family: var(--display); }
     .ds-page .ticker-price { color: var(--muted); }
-    .ds-page .ticker-change.up { color: var(--purple); }
+    .ds-page .ticker-change.up { color: var(--accent); }
     .ds-page .ticker-change.down { color: var(--red); }
     .ds-page .ticker-sep { color: var(--border); font-size: 0.5rem; }
     .ds-page .ticker-loading {
@@ -125,11 +116,11 @@
 
     .ds-page .section-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
     .ds-page .section-label {
-      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--purple);
+      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--accent);
       text-transform: uppercase; margin-bottom: 0.75rem;
       display: flex; align-items: center; gap: 0.75rem;
     }
-    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--purple); }
+    .ds-page .section-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
     .ds-page .section-title {
       font-family: var(--display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800;
       margin-bottom: 0.5rem; line-height: 1.1;
@@ -143,7 +134,7 @@
     .ds-page .project-section:hover { background: #1a1a1a; }
     .ds-page .project-section::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--purple); transform: scaleX(0); transform-origin: left;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
       transition: transform 0.4s ease;
     }
     .ds-page .project-section:hover::before { transform: scaleX(1); }
@@ -154,7 +145,7 @@
       display: inline-flex; align-items: center; gap: 0.4rem;
       font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
       padding: 0.25rem 0.65rem;
-      border: 1px solid var(--purple-glow); color: var(--purple); background: var(--purple-dim);
+      border: 1px solid var(--accent-glow); color: var(--accent); background: var(--accent-dim);
       margin-bottom: 1.2rem;
       font-family: var(--display);
     }
@@ -182,14 +173,14 @@
       display: block; width: 100%; height: auto;
       transition: transform 0.5s ease, filter 0.3s ease;
     }
-    .ds-page .project-preview:hover { box-shadow: 0 12px 40px var(--purple-glow); transform: translateY(-3px); }
+    .ds-page .project-preview:hover { box-shadow: 0 12px 40px var(--accent-glow); transform: translateY(-3px); }
     .ds-page .project-preview:hover img { transform: scale(1.02); filter: brightness(1.08); }
     .ds-page .project-preview::after {
       content: 'CLICK TO OPEN ↗';
       position: absolute; top: 1rem; right: 1rem;
-      background: rgba(0,0,0,0.85); color: var(--purple);
+      background: rgba(0,0,0,0.85); color: var(--accent);
       font-family: var(--display); font-size: 0.6rem; letter-spacing: 0.2em;
-      padding: 0.4rem 0.7rem; border: 1px solid var(--purple-glow);
+      padding: 0.4rem 0.7rem; border: 1px solid var(--accent-glow);
       opacity: 0; transition: opacity 0.3s;
       backdrop-filter: blur(8px);
     }
@@ -197,14 +188,14 @@
 
     .ds-page .pitch-button {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--purple); color: #fff; font-family: var(--display);
+      background: var(--accent); color: #000; font-family: var(--display);
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; text-decoration: none;
       padding: 0.65rem 1.4rem; transition: transform 0.2s, box-shadow 0.2s;
     }
-    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--purple-glow); }
-    .ds-page .pitch-button.alt { background: #1a1a1a; color: var(--purple); border: 1px solid var(--purple); }
-    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 var(--purple-glow); }
+    .ds-page .pitch-button:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--accent-glow); }
+    .ds-page .pitch-button.alt { background: #1a1a1a; color: var(--accent); border: 1px solid var(--accent); }
+    .ds-page .pitch-button.alt:hover { box-shadow: 3px 3px 0 var(--accent-glow); }
 
     .ds-page .pitch-deck {
       background: var(--card-bg); border: 1px solid var(--border);
@@ -214,7 +205,7 @@
       font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
       margin-bottom: 0.8rem;
     }
-    .ds-page .pitch-deck h2 span { color: var(--purple); }
+    .ds-page .pitch-deck h2 span { color: var(--accent); }
     .ds-page .pitch-deck p {
       font-size: 0.85rem; color: var(--muted); line-height: 1.9;
       max-width: 720px; margin-bottom: 1.5rem;
@@ -225,7 +216,7 @@
       border: 1px solid var(--border); margin: 1.5rem 0;
     }
     .ds-page .pitch-deck h3 {
-      font-family: var(--display); font-size: 0.75rem; color: var(--purple);
+      font-family: var(--display); font-size: 0.75rem; color: var(--accent);
       letter-spacing: 0.05em; margin-top: 1.5rem;
     }
 
@@ -237,7 +228,7 @@
     }
     .ds-page .footer-brand {
       font-family: var(--display); font-size: 0.8rem; font-weight: 800;
-      color: var(--purple); letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase;
     }
     .ds-page .footer-copy { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.4rem; font-family: sans-serif; }
     .ds-page .social-icons { display: flex; gap: 1rem; }
@@ -262,11 +253,7 @@
         <a href="/">
           <img src="/el4e v5.png" class="hero-image" alt="Energy Lasts Forever Logo" />
         </a>
-        <h1 class="hero-title">Data-Driven<br /><em>Sports Intelligence</em></h1>
-        <p class="hero-sub">
-          Building the next generation of sports analytics tools — from Bayesian salary models to AI-powered video stat collection.
-        </p>
-        <a href="#projects" class="hero-cta">View Projects →</a>
+        <a href="#projects" class="hero-cta">See Projects ↓</a>
       </div>
     </section>
 
@@ -291,6 +278,9 @@
         <div class="project-tag">Bayesian Salary Model</div>
         <h2>2026-27 Fair Salary Predictor</h2>
         <p>Interactive tool projecting fair-value NBA contracts for the 2026-27 season using Bayesian modeling on per-game, advanced, and contract data. Compare projected values against actual signings in real time.</p>
+        <a href="https://salaryprojections26.lovable.app/" target="_blank" class="project-preview">
+          <img src="/pictures/salary-predictor-preview.png" alt="2026-27 Fair Salary Predictor preview" />
+        </a>
         <a href="https://salaryprojections26.lovable.app/" target="_blank" class="pitch-button alt">See Project ↗</a>
       </section>
 
