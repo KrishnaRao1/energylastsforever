@@ -8,19 +8,17 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html, body {
       height: 100%;
       overflow: hidden;
     }
-
     main#home {
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0 45px;
     }
-
     .hero {
       display: flex;
       flex-direction: column;
@@ -28,7 +26,6 @@
       justify-content: center;
       gap: 10px;
     }
-
     .side-logos {
       position: fixed;
       top: 0;
@@ -57,14 +54,21 @@
     }
     .side-logos img:hover { opacity: 1; transform: scale(1.05); }
 
-    @media (max-width: 768px) { .side-logos { display: none; } }
+    @media (max-width: 768px) {
+      .side-logos { width: 45px; }
+      .side-logos img { width: 45px; }
+      main#home { padding: 0 20px; }
+    }
+    @media (max-width: 420px) {
+      .side-logos { width: 32px; }
+      .side-logos img { width: 32px; }
+      main#home { padding: 0 12px; }
+    }
   </style>
 </head>
 <body>
-
   <div class="side-logos left" id="leftLogos"></div>
   <div class="side-logos right" id="rightLogos"></div>
-
   <header></header>
   <main id="home">
     <section class="hero">
@@ -77,18 +81,15 @@
           <li><a href="gallery.html">Gallery</a></li>
           <li><a href="about.html">EnergyLastsForever</a></li>
           <li><a href="DataScience.html">Data Science</a></li>
-
         </ul>
       </nav>
     </section>
   </main>
-
   <footer></footer>
-
   <script>
     // Fill side logos dynamically to cover full screen height
     function fillSideLogos() {
-      const logoSize = 80;
+      const logoSize = window.innerWidth <= 420 ? 32 : window.innerWidth <= 768 ? 45 : 80;
       const count = Math.ceil(window.innerHeight / logoSize);
       const html = Array(count).fill(`<a href="/"><img src="el4e v4.png" alt="Home" /></a>`).join('');
       document.getElementById('leftLogos').innerHTML = html;
@@ -96,7 +97,6 @@
     }
     fillSideLogos();
     window.addEventListener('resize', fillSideLogos);
-
     // Date/time
     function updateDateTime() {
       const optionsDate = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Los_Angeles' };
@@ -111,6 +111,5 @@
     updateDateTime();
   </script>
   <script src="script.js"></script>
-
 </body>
 </html>
