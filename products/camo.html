@@ -122,6 +122,25 @@
       background-color: #1a1a1a;
       color: white;
     }
+    .detail-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .detail-section span {
+      font-size: 0.85rem;
+      color: white;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .detail-section img {
+      width: 500px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -150,13 +169,17 @@
       </p>
       <div class="button-group">
         <select id="sizeSelect" class="size-select">
-          <option value="S">Size S</option>
           <option value="M" selected>Size M</option>
           <option value="L">Size L</option>
           <option value="XL">Size XL</option>
         </select>
         <button class="buy-now" onclick="handleAddToCart()">Add to Cart</button>
         <a href="/shop/" class="back-link">← Back to Collection</a>
+      </div>
+      <hr class="divider" />
+      <div class="detail-section">
+        <img src="/mockups/camo detail.png" alt="Camo Detail" />
+        <span>Detail</span>
       </div>
     </div>
   </main>
