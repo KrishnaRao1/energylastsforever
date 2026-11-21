@@ -2,18 +2,181 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Order Confirmed – Energy Lasts Forever</title>
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <script src="/cart.js"></script>
+  <style>
+    .success-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 20px;
+      gap: 28px;
+      text-align: center;
+      color: white;
+    }
+    .success-logo {
+      width: 220px;
+      max-width: 60%;
+      height: auto;
+      animation: float 4s ease-in-out infinite, glow 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(128, 0, 128, 0.5)); }
+      50% { filter: drop-shadow(0 0 28px rgba(128, 0, 128, 1)); }
+    }
+    .success-page h1 {
+      font-size: 2.4rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .success-sub {
+      font-size: 1rem;
+      color: #800080;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .divider {
+      width: 60px;
+      height: 2px;
+      background-color: #800080;
+      border: none;
+    }
+    .success-message {
+      max-width: 520px;
+      line-height: 1.8;
+      opacity: 0.9;
+      margin: 0;
+    }
+    .order-ref {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      opacity: 0.85;
+    }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    .shop-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background-color: #800080;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-family: 'Orbitron Black', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .shop-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.8);
+    }
+    .ig-link {
+      display: inline-block;
+      padding: 12px 28px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 0.95rem;
+      font-family: 'Orbitron Black', sans-serif;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .ig-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 14px rgba(255, 255, 255, 0.2);
+    }
+    .tagline {
+      font-size: 0.8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .success-logo { animation: none; }
+    }
+  </style>
 </head>
 <body>
   <header></header>
-  <main style="text-align:center; padding:100px 20px; color:white;">
-    <h1>Thank you!</h1>
-    <p>Your order has been placed.</p>
-    <a href="/" style="color:#800080;">← Back to shop</a>
+  <main>
+    <div class="success-page">
+      <a href="/">
+        <img src="/el4e v5.png" class="success-logo" alt="Energy Lasts Forever Logo" />
+      </a>
+
+      <h1 id="title">Thank You</h1>
+      <p class="success-sub" id="subtitle">Order Confirmed</p>
+      <hr class="divider" />
+
+      <p class="success-message" id="message">
+        Your order is in. A receipt is on its way to your email, and we'll start getting your gear ready.
+      </p>
+
+      <div class="order-ref" id="orderRef" style="display:none;"></div>
+
+      <div class="button-group">
+        <a href="/shop/" class="shop-btn">Keep Shopping</a>
+        <a href="https://www.instagram.com/energylastsforever/" target="_blank" rel="noopener" class="ig-link">Follow @energylastsforever</a>
+      </div>
+
+      <p class="tagline">Energy Lasts Forever</p>
+    </div>
   </main>
   <footer></footer>
-  <script>clearCart();</script>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const status = params.get("redirect_status");
+      const pi = params.get("payment_intent");
+
+      const title = document.getElementById("title");
+      const subtitle = document.getElementById("subtitle");
+      const message = document.getElementById("message");
+      const orderRef = document.getElementById("orderRef");
+
+      if (status === "failed") {
+        title.textContent = "Payment Failed";
+        subtitle.textContent = "Nothing was charged";
+        message.textContent = "Your payment didn't go through. Your cart is still saved, so you can head back and try again.";
+        document.querySelector(".shop-btn").textContent = "Back to Checkout";
+        document.querySelector(".shop-btn").href = "/checkout.html";
+        return;
+      }
+
+      if (status === "processing") {
+        subtitle.textContent = "Payment Processing";
+        message.textContent = "Your payment is still processing. You'll get a confirmation email as soon as it clears.";
+      }
+
+      if (pi) {
+        orderRef.textContent = "Order Ref: " + pi.slice(-8).toUpperCase();
+        orderRef.style.display = "block";
+      }
+
+      if (typeof clearCart === "function") clearCart();
+    })();
+  </script>
 </body>
 </html>
