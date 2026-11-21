@@ -16,11 +16,11 @@
                border-radius: 8px; font-size: 1.1rem; font-family: 'Orbitron Black', sans-serif; cursor: pointer; margin-top: 10px; }
     #pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     #error-message { color: #ff6b6b; margin-top: 10px; font-size: 0.9rem; }
-    #promo-message { margin-top: 8px; font-size: 0.85rem; }
+    #promo-message { margin-top: 8px; font-size: 0.85rem; min-height: 1.2em; }
     #promo-message.success { color: #4ade80; }
     #promo-message.error { color: #ff6b6b; }
     .order-summary { border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; margin-bottom: 15px; }
-    .summary-line { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 3px 0; }
+    .summary-line { display: flex; justify-content: space-between; gap: 12px; font-size: 0.9rem; padding: 3px 0; }
     .summary-line.total { font-weight: bold; font-size: 1.05rem; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 8px; }
     .summary-line.discount { color: #4ade80; }
     .section-label { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin: 20px 0 8px; }
@@ -36,20 +36,23 @@
     }
     .promo-row button:hover { border-color: #800080; }
     .promo-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .loading-text { text-align: center; opacity: 0.7; margin: 30px 0; }
   </style>
 </head>
 <body>
   <header></header>
   <main>
-    <div class="checkout-page">
+    <div class="checkout-page" id="checkoutPage">
       <h1 style="text-align:center;">Checkout</h1>
 
-      <div class="order-summary" id="orderSummary"></div>
+      <div class="order-summary" id="orderSummary">
+        <p class="loading-text">Loading your order...</p>
+      </div>
 
       <div class="section-label">Promo Code</div>
       <div class="promo-row">
-        <input type="text" id="promoInput" placeholder="Enter code" />
-        <button id="promoBtn" onclick="applyPromo()">Apply</button>
+        <input type="text" id="promoInput" placeholder="Enter code" autocomplete="off" />
+        <button type="button" id="promoBtn" disabled>Apply</button>
       </div>
       <div id="promo-message"></div>
 
@@ -63,31 +66,84 @@
         <div class="section-label">Payment</div>
         <div id="payment-element"></div>
 
-        <button id="pay-btn">Pay Now</button>
-        <div id="error-message"></div>
+        <button id="pay-btn" type="submit" disabled>Pay Now</button>
+        <div id="error-message" role="alert"></div>
       </form>
     </div>
   </main>
   <footer></footer>
+
   <script>
     const WORKER_URL = "https://el4eshipping.krao30120.workers.dev";
-    const stripe = Stripe("pk_test_51T4B1V7SiKgMpSm2BrhXFJM9wZiwtrF4VO68sXyj1fvUm1FYE7ZO1aohz824OPY4kBnE2XYS0ENAua7LzVb3DjJM00WsMOXkg5");
+    const STRIPE_PK = "pk_test_51T4B1V7SiKgMpSm2BrhXFJM9wZiwtrF4VO68sXyj1fvUm1FYE7ZO1aohz824OPY4kBnE2XYS0ENAua7LzVb3DjJM00WsMOXkg5";
 
-    let elements;
-    let customerEmail = "";
+    const els = {
+      page: document.getElementById("checkoutPage"),
+      summary: document.getElementById("orderSummary"),
+      promoInput: document.getElementById("promoInput"),
+      promoBtn: document.getElementById("promoBtn"),
+      promoMsg: document.getElementById("promo-message"),
+      form: document.getElementById("payment-form"),
+      payBtn: document.getElementById("pay-btn"),
+      error: document.getElementById("error-message"),
+    };
+
+    let stripe = null;
+    let elements = null;
     let currentPaymentIntentId = null;
     let currentCart = [];
+    let currentTotal = 0;
     let appliedPromoCode = "";
+    let busy = false;
 
     function money(cents) {
-      return "$" + (cents / 100).toFixed(2);
+      return "$" + (Number(cents || 0) / 100).toFixed(2);
+    }
+
+    function esc(str) {
+      return String(str).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    function setError(msg) {
+      els.error.textContent = msg || "";
+    }
+
+    function setBusy(state) {
+      busy = state;
+      els.payBtn.disabled = state || !elements;
+      els.promoBtn.disabled = state || !elements;
+    }
+
+    function updatePayLabel() {
+      els.payBtn.textContent = currentTotal > 0 ? "Pay " + money(currentTotal) : "Pay Now";
+    }
+
+    async function post(body) {
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Unexpected response from server.");
+      }
+      if (!res.ok && !data.error) {
+        throw new Error("Server error (" + res.status + ").");
+      }
+      return data;
     }
 
     function renderSummary(breakdown) {
-      const cart = currentCart;
-      const itemLines = cart.map(item => {
-        const p = PRODUCTS[item.id];
-        return `<div class="summary-line"><span>${p.name}${item.size ? " (" + item.size + ")" : ""} × ${item.qty}</span><span>${money(p.price * item.qty)}</span></div>`;
+      const itemLines = currentCart.map(item => {
+        const p = (typeof PRODUCTS !== "undefined") ? PRODUCTS[item.id] : null;
+        const name = p ? p.name : item.id;
+        const lineTotal = p ? money(p.price * item.qty) : "";
+        return `<div class="summary-line"><span>${esc(name)}${item.size ? " (" + esc(item.size) + ")" : ""} × ${item.qty}</span><span>${lineTotal}</span></div>`;
       }).join("");
 
       let html = itemLines;
@@ -99,136 +155,167 @@
       html += `<div class="summary-line"><span>Tax</span><span>${money(breakdown.tax)}</span></div>`;
       html += `<div class="summary-line total"><span>Total</span><span>${money(breakdown.total)}</span></div>`;
 
-      document.getElementById("orderSummary").innerHTML = html;
+      els.summary.innerHTML = html;
+      currentTotal = breakdown.total;
+      updatePayLabel();
+    }
+
+    function showEmptyCart() {
+      els.page.innerHTML = "<h1 style='text-align:center;'>Checkout</h1><p style='text-align:center;'>Your cart is empty. <a href='/shop/' style='color:#800080;'>Continue shopping</a></p>";
     }
 
     async function initialize() {
-      currentCart = getCart();
-      if (currentCart.length === 0) {
-        document.querySelector(".checkout-page").innerHTML = "<p style='text-align:center;'>Your cart is empty. <a href='/'>Continue shopping</a></p>";
+      if (typeof Stripe !== "function") {
+        els.summary.innerHTML = "";
+        setError("Payment system failed to load. Disable ad blockers and refresh.");
+        return;
+      }
+      if (typeof getCart !== "function") {
+        els.summary.innerHTML = "";
+        setError("Cart failed to load. Please refresh.");
         return;
       }
 
-      const res = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart: currentCart }),
-      });
-      const data = await res.json();
+      stripe = Stripe(STRIPE_PK);
+      currentCart = getCart() || [];
 
-      if (data.error) {
-        document.getElementById("error-message").textContent = data.error;
+      if (currentCart.length === 0) {
+        showEmptyCart();
+        return;
+      }
+
+      let data;
+      try {
+        data = await post({ cart: currentCart });
+      } catch (err) {
+        els.summary.innerHTML = "";
+        setError(err.message || "Could not start checkout. Please refresh.");
+        return;
+      }
+
+      if (data.error || !data.clientSecret || !data.breakdown) {
+        els.summary.innerHTML = "";
+        setError(data.error || "Could not start checkout. Please refresh.");
         return;
       }
 
       currentPaymentIntentId = data.paymentIntentId;
       renderSummary(data.breakdown);
 
-      const appearance = {
-        theme: "night",
-        variables: {
-          colorPrimary: "#800080",
-          colorBackground: "#1a1a1a",
-          colorText: "#ffffff",
-          fontFamily: "Orbitron Black, sans-serif",
-          borderRadius: "8px",
-        },
-      };
-
-      elements = stripe.elements({ clientSecret: data.clientSecret, appearance });
-
-      const linkAuthenticationElement = elements.create("linkAuthentication");
-      linkAuthenticationElement.mount("#link-authentication-element");
-      linkAuthenticationElement.on("change", (event) => {
-        customerEmail = event.value.email;
-      });
-
-      const addressElement = elements.create("address", {
-        mode: "shipping",
-        fields: { phone: "never" }
-      });
-      addressElement.mount("#address-element");
-
-      const paymentElement = elements.create("payment");
-      paymentElement.mount("#payment-element");
-    }
-
-    async function applyPromo() {
-      const promoBtn = document.getElementById("promoBtn");
-      const promoMessage = document.getElementById("promo-message");
-      const code = document.getElementById("promoInput").value.trim();
-
-      if (!code) return;
-
-      promoBtn.disabled = true;
-      promoMessage.textContent = "Checking code...";
-      promoMessage.className = "";
-
-      const res = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cart: currentCart,
-          promoCode: code,
-          paymentIntentId: currentPaymentIntentId,
-        }),
-      });
-      const data = await res.json();
-      promoBtn.disabled = false;
-
-      if (data.error) {
-        promoMessage.textContent = data.error;
-        promoMessage.className = "error";
-        return;
-      }
-
-      if (!data.breakdown.promoApplied) {
-        promoMessage.textContent = "Invalid promo code.";
-        promoMessage.className = "error";
-        renderSummary(data.breakdown);
-        return;
-      }
-
-      appliedPromoCode = code;
-      promoMessage.textContent = "Promo code applied!";
-      promoMessage.className = "success";
-      renderSummary(data.breakdown);
-
-      // Sync Elements with the updated PaymentIntent amount
-      await elements.fetchUpdates();
-    }
-
-    document.getElementById("payment-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      document.getElementById("pay-btn").disabled = true;
-      document.getElementById("error-message").textContent = "";
-
-      const addressElement = elements.getElement("address");
-      const { value: addressValue, complete: addressComplete } = await addressElement.getValue();
-
-      if (!addressComplete) {
-        document.getElementById("error-message").textContent = "Please complete your shipping address.";
-        document.getElementById("pay-btn").disabled = false;
-        return;
-      }
-
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + "/success.html",
-          receipt_email: customerEmail,
-          shipping: {
-            name: addressValue.name,
-            address: addressValue.address,
+      elements = stripe.elements({
+        clientSecret: data.clientSecret,
+        appearance: {
+          theme: "night",
+          variables: {
+            colorPrimary: "#800080",
+            colorBackground: "#1a1a1a",
+            colorText: "#ffffff",
+            fontFamily: "system-ui, -apple-system, Segoe UI, sans-serif",
+            borderRadius: "8px",
           },
         },
       });
 
-      if (error) {
-        document.getElementById("error-message").textContent = error.message;
-        document.getElementById("pay-btn").disabled = false;
+      elements.create("linkAuthentication").mount("#link-authentication-element");
+      elements.create("address", { mode: "shipping", fields: { phone: "never" } }).mount("#address-element");
+
+      const paymentElement = elements.create("payment");
+      paymentElement.mount("#payment-element");
+      paymentElement.on("ready", () => setBusy(false));
+    }
+
+    async function applyPromo() {
+      if (busy || !elements) return;
+      const code = els.promoInput.value.trim();
+      if (!code) return;
+
+      setBusy(true);
+      els.promoMsg.textContent = "Checking code...";
+      els.promoMsg.className = "";
+
+      try {
+        const data = await post({
+          cart: currentCart,
+          promoCode: code,
+          paymentIntentId: currentPaymentIntentId,
+        });
+
+        if (data.error || !data.breakdown) {
+          els.promoMsg.textContent = data.error || "Could not apply code.";
+          els.promoMsg.className = "error";
+          return;
+        }
+
+        renderSummary(data.breakdown);
+
+        if (!data.breakdown.promoApplied) {
+          els.promoMsg.textContent = "Invalid promo code.";
+          els.promoMsg.className = "error";
+          return;
+        }
+
+        appliedPromoCode = code;
+        els.promoMsg.textContent = "Promo code applied!";
+        els.promoMsg.className = "success";
+
+        // Sync Elements with the updated PaymentIntent amount
+        const { error } = await elements.fetchUpdates();
+        if (error) {
+          els.promoMsg.textContent = error.message;
+          els.promoMsg.className = "error";
+        }
+      } catch (err) {
+        els.promoMsg.textContent = err.message || "Could not apply code.";
+        els.promoMsg.className = "error";
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (busy || !elements) return;
+
+      setBusy(true);
+      setError("");
+      els.payBtn.textContent = "Processing...";
+
+      try {
+        const addressElement = elements.getElement("address");
+        const { complete } = await addressElement.getValue();
+
+        if (!complete) {
+          setError("Please complete your shipping address.");
+          return;
+        }
+
+        // Shipping address and email are collected automatically from the Address and Link elements.
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: window.location.origin + "/success.html",
+          },
+        });
+
+        if (error) {
+          setError(error.message);
+        }
+      } catch (err) {
+        setError(err.message || "Payment failed. Please try again.");
+      } finally {
+        setBusy(false);
+        updatePayLabel();
+      }
+    }
+
+    els.promoBtn.addEventListener("click", applyPromo);
+    els.promoInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        applyPromo();
       }
     });
+    els.form.addEventListener("submit", handleSubmit);
 
     initialize();
   </script>
