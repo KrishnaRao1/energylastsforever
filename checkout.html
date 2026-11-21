@@ -93,7 +93,6 @@
     let currentPaymentIntentId = null;
     let currentCart = [];
     let currentTotal = 0;
-    let appliedPromoCode = "";
     let busy = false;
 
     function money(cents) {
@@ -139,20 +138,32 @@
     }
 
     function renderSummary(breakdown) {
-      const itemLines = currentCart.map(item => {
-        const p = (typeof PRODUCTS !== "undefined") ? PRODUCTS[item.id] : null;
-        const name = p ? p.name : item.id;
-        const lineTotal = p ? money(p.price * item.qty) : "";
-        return `<div class="summary-line"><span>${esc(name)}${item.size ? " (" + esc(item.size) + ")" : ""} × ${item.qty}</span><span>${lineTotal}</span></div>`;
-      }).join("");
+      // Prefer line items from the Worker; fall back to products.js
+      let items = Array.isArray(breakdown.items) ? breakdown.items : null;
+      if (!items) {
+        items = currentCart.map(item => {
+          const p = (typeof PRODUCTS !== "undefined") ? PRODUCTS[item.id] : null;
+          return {
+            name: p ? p.name : item.id,
+            size: item.size,
+            qty: item.qty,
+            lineTotal: p ? p.price * item.qty : null,
+          };
+        });
+      }
 
-      let html = itemLines;
+      let html = items.map(i =>
+        `<div class="summary-line"><span>${esc(i.name)}${i.size ? " (" + esc(i.size) + ")" : ""} × ${esc(i.qty)}</span><span>${i.lineTotal != null ? money(i.lineTotal) : ""}</span></div>`
+      ).join("");
+
       html += `<div class="summary-line"><span>Subtotal</span><span>${money(breakdown.subtotal)}</span></div>`;
       if (breakdown.discount > 0) {
         html += `<div class="summary-line discount"><span>Discount</span><span>-${money(breakdown.discount)}</span></div>`;
       }
       html += `<div class="summary-line"><span>Shipping</span><span>${breakdown.shipping === 0 ? "FREE" : money(breakdown.shipping)}</span></div>`;
-      html += `<div class="summary-line"><span>Tax</span><span>${money(breakdown.tax)}</span></div>`;
+      if (breakdown.tax > 0) {
+        html += `<div class="summary-line"><span>Tax</span><span>${money(breakdown.tax)}</span></div>`;
+      }
       html += `<div class="summary-line total"><span>Total</span><span>${money(breakdown.total)}</span></div>`;
 
       els.summary.innerHTML = html;
@@ -254,7 +265,6 @@
           return;
         }
 
-        appliedPromoCode = code;
         els.promoMsg.textContent = "Promo code applied!";
         els.promoMsg.className = "success";
 
@@ -289,7 +299,7 @@
           return;
         }
 
-        // Shipping address and email are collected automatically from the Address and Link elements.
+        // Email and shipping address are collected automatically by the Link and Address elements.
         const { error } = await stripe.confirmPayment({
           elements,
           confirmParams: {
